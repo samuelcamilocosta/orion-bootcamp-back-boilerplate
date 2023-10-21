@@ -4,52 +4,53 @@ import { userRepository } from '../repositories/userRepository';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-/**
- * @swagger
- * /login:
- *   post:
- *     summary: Logs in a user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Login successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     name:
- *                       type: string
- *                     email:
- *                       type: string
- *                 token:
- *                   type: string
- *       400:
- *         description: Invalid email and/or password
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- */
 export class LoginController {
+  /**
+   * @swagger
+   * /login:
+   *   post:
+   *     summary: Logs in a user
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Login successful
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 user:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                     name:
+   *                       type: string
+   *                     email:
+   *                       type: string
+   *                 token:
+   *                   type: string
+   *       400:
+   *         description: Invalid email and/or password
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   */
+
   public static async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
