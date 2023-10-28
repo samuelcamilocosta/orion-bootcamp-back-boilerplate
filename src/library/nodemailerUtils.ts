@@ -11,8 +11,8 @@ export class NodemailerService {
       host: 'sandbox.smtp.mailtrap.io',
       port: 2525,
       auth: {
-        user: 'b18597c503675e',
-        pass: 'c0cce67a977c5d'
+        user: 'a400bfa9b6492b',
+        pass: 'bf74fbd33a3d01'
       }
     });
   }
@@ -23,7 +23,7 @@ export class NodemailerService {
    */
   static async sendPasswordRecoveryEmail(email: string): Promise<void> {
     const mailOptions = {
-      from: 'admin <245b14fdd3-31d9d3@inbox.mailtrap.io>',
+      from: 'admin <d7c4b73e42-03dc9b@inbox.mailtrap.io>',
       to: email,
       subject: 'Recuperação de Senha',
       html: `
