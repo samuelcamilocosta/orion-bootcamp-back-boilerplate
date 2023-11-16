@@ -5,8 +5,18 @@ import recoveryRoute from './api/v1/recoveryRoute';
 import solesRoute from './api/v1/solesRoute';
 import logoutRoute from './api/v1/logoutRoute';
 import planCardsRoute from './api/v1/planCardsRoute';
+import userRegistrationRoute from './api/v1/userRegistrationRoute';
 
 const router = Router();
+
+/**
+ * POST route for user registration
+ * Logic on controller/UserRegistrationController.ts
+ *
+ * @route POST /user-registration
+ * @group Authentication
+ */
+router.use('/v1', userRegistrationRoute);
 
 /**
  * POST route for user login (authentication)

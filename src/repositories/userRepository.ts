@@ -1,12 +1,20 @@
 import { UpdateResult } from 'typeorm';
 import { MysqlDataSource } from '../config/database';
 import { JwtUtils } from '../library/jwtUtils';
+import { BcryptUtils } from '../library/bcryptUtils';
 import { User } from '../entity/Users';
 
 /**
  * Deals with User database queries
  */
 export class UserRepository {
+  public static async addUser(email: string, password: string): Promise<User> {
+    const newUser: User = new User();
+    newUser.email = email;
+    newUser.password = await BcryptUtils.hashPassword(password);
+    return await MysqlDataSource.getRepository(User).save(newUser);
+  }
+
   /**
    * addPasswordRecoveryToken
    *
