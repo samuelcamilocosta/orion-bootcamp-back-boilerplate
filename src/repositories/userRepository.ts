@@ -8,6 +8,15 @@ import { User } from '../entity/Users';
  * Deals with User database queries
  */
 export class UserRepository {
+  /**
+   * addUser
+   *
+   * Saves user to the database
+   *
+   * @param email new user's email
+   * @param password new user's password
+   * @returns {Promise<User>} User with email and hashed password
+   */
   public static async addUser(email: string, password: string): Promise<User> {
     const newUser: User = new User();
     newUser.email = email;
