@@ -53,7 +53,7 @@ export class LoginController {
    *             properties:
    *               email:
    *                 type: string
-   *                 example: user1@test.com
+   *                 example: ricardonovais1@gmail.com
    *               password:
    *                 type: string
    *                 example: Pa$$$word123
