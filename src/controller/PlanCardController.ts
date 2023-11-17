@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { PlanCard } from '../entity/PlanCard';
 import { MysqlDataSource } from '../config/database';
-import { AuthMiddleware } from '../middlewares/authValidation';
 import { PlanCardRepository } from '../repositories/planCardRepository';
 
 /**
