@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PlanCard } from '../entity/PlanCard';
 import { MysqlDataSource } from '../config/database';
 import { PlanCardRepository } from '../repositories/planCardRepository';
+import { DeepPartial } from 'typeorm';
 
 /**
  * Controller for exposing data in the soles endpoint, and also saving the data to the database.
@@ -125,15 +126,15 @@ export class PlanCardController {
   public static async createPlanCard(req: Request, res: Response): Promise<void> {
     const { planCardTitle, planCardDescription, planCardImage, planCardButtonText } = req.body;
     try {
-      const newPlanCard: PlanCard = new PlanCard();
-      newPlanCard.planCardTitle = planCardTitle;
-      newPlanCard.planCardDescription = planCardDescription;
-      newPlanCard.planCardImage = planCardImage;
-      newPlanCard.planCardButtonText = planCardButtonText;
+      const newPlanCard: DeepPartial<PlanCard> = {
+        planCardTitle,
+        planCardDescription,
+        planCardImage,
+        planCardButtonText
+      };
+      const createPlanCard: PlanCard = await MysqlDataSource.getRepository(PlanCard).save(newPlanCard);
 
-      await MysqlDataSource.getRepository(PlanCard).save(newPlanCard);
-
-      res.status(201).json(newPlanCard);
+      res.status(201).json(createPlanCard);
     } catch (error) {
       res.status(500).json({ error: 'Não foi possível salvar o novo PlanCard' });
     }
