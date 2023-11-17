@@ -51,15 +51,13 @@ export class PlanCardController {
    *                   type: string
    */
   public static async getPlanCards(req: Request, res: Response): Promise<void> {
-    AuthMiddleware.authValidation(req, res, async () => {
-      try {
-        const allPlanCards: PlanCard[] = await PlanCardRepository.getAllPlanCards();
+    try {
+      const allPlanCards: PlanCard[] = await PlanCardRepository.getAllPlanCards();
 
-        res.status(200).json(allPlanCards);
-      } catch {
-        res.status(400).json({ error: 'Erro ao buscar cartões de planos' });
-      }
-    });
+      res.status(200).json(allPlanCards);
+    } catch {
+      res.status(400).json({ error: 'Erro ao buscar cartões de planos' });
+    }
   }
 
   /**
@@ -127,20 +125,18 @@ export class PlanCardController {
    */
   public static async createPlanCard(req: Request, res: Response): Promise<void> {
     const { planCardTitle, planCardDescription, planCardImage, planCardButtonText } = req.body;
-    AuthMiddleware.authValidation(req, res, async () => {
-      try {
-        const newPlanCard: PlanCard = new PlanCard();
-        newPlanCard.planCardTitle = planCardTitle;
-        newPlanCard.planCardDescription = planCardDescription;
-        newPlanCard.planCardImage = planCardImage;
-        newPlanCard.planCardButtonText = planCardButtonText;
+    try {
+      const newPlanCard: PlanCard = new PlanCard();
+      newPlanCard.planCardTitle = planCardTitle;
+      newPlanCard.planCardDescription = planCardDescription;
+      newPlanCard.planCardImage = planCardImage;
+      newPlanCard.planCardButtonText = planCardButtonText;
 
-        await MysqlDataSource.getRepository(PlanCard).save(newPlanCard);
+      await MysqlDataSource.getRepository(PlanCard).save(newPlanCard);
 
-        res.status(201).json(newPlanCard);
-      } catch (error) {
-        res.status(500).json({ error: 'Não foi possível salvar o novo PlanCard' });
-      }
-    });
+      res.status(201).json(newPlanCard);
+    } catch (error) {
+      res.status(500).json({ error: 'Não foi possível salvar o novo PlanCard' });
+    }
   }
 }
