@@ -3,7 +3,16 @@ import { UserRepository } from '../repositories/userRepository';
 import { UserValidationsMiddleware } from './validationMiddleware';
 
 export class UserRegistrationValidations {
-  public static checkEmailAndPasswordFormats(req: Request, res: Response, next: NextFunction) {
+  /**
+   * checkEmailAndPasswordFormats
+   *
+   * Checks email and password formats, through UserValidationsMiddleware class
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkEmailAndPasswordFormats(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { email, password } = req.body;
 
     const emailOrPasswordInvalid: boolean = UserValidationsMiddleware.validateEmailAndPassword(email, password);
@@ -15,6 +24,15 @@ export class UserRegistrationValidations {
     next();
   }
 
+  /**
+   * checkIfUserExists
+   *
+   * Checks if there is already a user registered with given email
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
   public static async checkIfUserExists(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { email } = req.body;
 
