@@ -8,7 +8,7 @@ export class UserValidationsMiddleware {
    * @param password inserted by user when trying to authenticate.
    * @returns {boolean} If password or email format is invalid it returns false
    */
-  public static validateEmailAndPassword(email: string, password: string): boolean {
+  public static async validateEmailAndPassword(email: string, password: string): Promise<boolean> {
     return !this.validateEmail(email) || !this.validatePassword(password);
   }
 
@@ -20,7 +20,7 @@ export class UserValidationsMiddleware {
    * @param email inserted by user when trying to authenticate.
    * @returns {boolean} If password format is valid or not
    */
-  public static validateEmail(email: string): boolean {
+  private static validateEmail(email: string): boolean {
     return /\S+@\S+\.\S+/.test(email);
   }
 
@@ -33,7 +33,7 @@ export class UserValidationsMiddleware {
    * @returns {boolean} If password format is valid or not
    * (Minimum 8 chars, 1 uppercase, 1 lowercase, 1 number and 1 special character)
    */
-  public static validatePassword(password: string): boolean {
+  private static validatePassword(password: string): boolean {
     return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password);
   }
 }

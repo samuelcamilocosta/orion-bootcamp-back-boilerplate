@@ -32,7 +32,7 @@ export class LoginController {
    *         - password
    *       example:
    *         id: 1
-   *         email: user1@test.com
+   *         email: flindenm@hotmail.com
    *         password: Pa$$$word123
    */
 
@@ -53,7 +53,7 @@ export class LoginController {
    *             properties:
    *               email:
    *                 type: string
-   *                 example: user1@test.com
+   *                 example: flindenm@hotmail.com
    *               password:
    *                 type: string
    *                 example: Pa$$$word123
@@ -87,9 +87,9 @@ export class LoginController {
   public static async login(req: Request, res: Response): Promise<Response> {
     const { email, password } = req.body;
 
-    const validationFails = UserValidationsMiddleware.validateEmailAndPassword(email, password);
+    const formatValidationFails = UserValidationsMiddleware.validateEmailAndPassword(email, password);
 
-    if (validationFails) {
+    if (!formatValidationFails) {
       return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
 
