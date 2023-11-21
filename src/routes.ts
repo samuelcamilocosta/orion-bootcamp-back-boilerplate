@@ -6,6 +6,7 @@ import solesRoute from './api/v1/solesRoute';
 import logoutRoute from './api/v1/logoutRoute';
 import quotesRoute from './api/v1/quotesRoute';
 import planCardsRoute from './api/v1/planCardsRoute';
+import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 
 const router = Router();
@@ -43,6 +44,14 @@ router.use('/v1', solesRoute);
  * @group plan cards data
  */
 router.use('/v1', planCardsRoute);
+
+/**
+ * POST route for creating a new PlanCard data
+ *
+ * @route POST /new-plan-card
+ * @group plan cards data
+ */
+router.use('/v1', newPlanCardRoute);
 
 /**
  * PATCH route for logout

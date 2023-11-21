@@ -5,16 +5,16 @@ export class PlanCard {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   planCardTitle: string;
 
-  @Column()
+  @Column({ nullable: false })
   planCardDescription: string;
 
-  @Column()
+  @Column({ nullable: false })
   planCardImage: string;
 
-  @Column()
+  @Column({ nullable: false })
   planCardButtonText: string;
 
   @CreateDateColumn()
