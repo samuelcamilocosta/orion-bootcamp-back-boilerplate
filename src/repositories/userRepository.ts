@@ -1,29 +1,12 @@
 import { UpdateResult } from 'typeorm';
 import { MysqlDataSource } from '../config/database';
 import { JwtUtils } from '../library/jwtUtils';
-import { BcryptUtils } from '../library/bcryptUtils';
 import { User } from '../entity/Users';
 
 /**
  * Deals with User database queries
  */
 export class UserRepository {
-  /**
-   * addUser
-   *
-   * Saves user to the database
-   *
-   * @param email new user's email
-   * @param password new user's password
-   * @returns {Promise<User>} User with email and hashed password
-   */
-  public static async addUser(email: string, password: string): Promise<User> {
-    const newUser: User = new User();
-    newUser.email = email;
-    newUser.password = await BcryptUtils.hashPassword(password);
-    return await MysqlDataSource.getRepository(User).save(newUser);
-  }
-
   /**
    * addPasswordRecoveryToken
    *
@@ -53,8 +36,8 @@ export class UserRepository {
    * @param email used as reference to find the user.
    * @returns {Promise<User | undefinded>} Returns user or not
    */
-  public static async findUserByEmail(email: string): Promise<User | undefined> {
-    return MysqlDataSource.getRepository(User).findOneBy({ email });
+  public static async findUserByEmail(email: string): Promise<User | null> {
+    return MysqlDataSource.getRepository(User).findOne({ where: { email } }) || null;
   }
 
   /**

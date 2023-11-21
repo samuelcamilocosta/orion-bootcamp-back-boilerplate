@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../repositories/userRepository';
 import { User } from '../entity/Users';
+import { DeepPartial } from 'typeorm';
+import { MysqlDataSource } from '../config/database';
+import { BcryptUtils } from '../library/bcryptUtils';
 
 /**
  * Controller for allowing new users to be saved to the database.
@@ -38,7 +41,7 @@ export class UserRegistrationController {
    *             schema:
    *               type: object
    *               properties:
-   *                 planCard:
+   *                 User:
    *                   type: object
    *                   properties:
    *                     id:
@@ -57,13 +60,20 @@ export class UserRegistrationController {
    *                 message:
    *                   type: string
    */
-  public static async userRegistraton(req: Request, res: Response): Promise<void> {
+  public static async userRegistration(req: Request, res: Response): Promise<void> {
     try {
       const { email, password } = req.body;
 
-      const newUser: User = await UserRepository.addUser(email, password);
+      const hashPassword: string = await BcryptUtils.hashPassword(password);
 
-      res.status(201).json(newUser);
+      const newUser: DeepPartial<User> = {
+        email,
+        password: hashPassword
+      };
+
+      const createdUser = await MysqlDataSource.getRepository(User).save(newUser);
+
+      res.status(201).json(createdUser.email);
     } catch {
       res.status(500).json({ error: 'Não foi possível salvar o usuário' });
     }
