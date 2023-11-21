@@ -87,16 +87,16 @@ export class LoginController {
   public static async login(req: Request, res: Response): Promise<Response> {
     const { email, password } = req.body;
 
+    const validationFails = UserValidationsMiddleware.validateEmailAndPassword(email, password);
+
+    if (validationFails) {
+      return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
+    }
+
     const user = await UserRepository.findUserByEmail(email);
 
     if (!user) {
       return res.status(400).send('E-mail e/ou senha inválidos');
-    }
-
-    const userValidator = UserValidationsMiddleware.validateEmailAndPassword(email, password);
-
-    if (!userValidator) {
-      return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
 
     const passwordsMatch = await BcryptUtils.comparePassword(password, user.password);

@@ -36,8 +36,8 @@ export class UserRepository {
    * @param email used as reference to find the user.
    * @returns {Promise<User | undefinded>} Returns user or not
    */
-  public static async findUserByEmail(email: string): Promise<User | null> {
-    return MysqlDataSource.getRepository(User).findOne({ where: { email } }) || null;
+  public static async findUserByEmail(email: string): Promise<User | undefined> {
+    return MysqlDataSource.getRepository(User).findOneBy({ email });
   }
 
   /**

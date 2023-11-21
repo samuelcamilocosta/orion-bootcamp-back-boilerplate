@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { UserRepository } from '../repositories/userRepository';
 import { UserValidationsMiddleware } from './validationMiddleware';
 
+/**
+ * Validations for user registration
+ */
 export class UserRegistrationValidations {
   /**
    * checkEmailAndPasswordFormats
