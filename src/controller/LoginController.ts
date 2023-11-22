@@ -89,13 +89,9 @@ export class LoginController {
 
     const formatValidationFails = UserValidationsMiddleware.validateEmailAndPassword(email, password);
 
-    console.log(formatValidationFails);
-
     if (formatValidationFails) {
       return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
-
-    console.log('passou aqui');
 
     const user = await UserRepository.findUserByEmail(email);
 
