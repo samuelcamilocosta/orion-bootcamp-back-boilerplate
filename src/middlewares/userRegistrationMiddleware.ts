@@ -18,12 +18,13 @@ export class UserRegistrationValidations {
   public static async checkEmailAndPasswordFormats(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { email, password } = req.body;
 
-    const emailOrPasswordInvalid = await UserValidationsMiddleware.validateEmailAndPassword(email, password);
+    const emailOrPasswordInvalid = UserValidationsMiddleware.validateEmailAndPassword(email, password);
 
     if (emailOrPasswordInvalid) {
       res.status(400).json({ error: 'Email e/ou senha inválidos' });
       return;
     }
+
     next();
   }
 

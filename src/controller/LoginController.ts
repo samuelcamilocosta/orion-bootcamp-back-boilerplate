@@ -89,19 +89,23 @@ export class LoginController {
 
     const formatValidationFails = UserValidationsMiddleware.validateEmailAndPassword(email, password);
 
-    if (!formatValidationFails) {
+    console.log(formatValidationFails);
+
+    if (formatValidationFails) {
       return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
+
+    console.log('passou aqui');
 
     const user = await UserRepository.findUserByEmail(email);
 
     if (!user) {
-      return res.status(400).send('E-mail e/ou senha inválidos');
+      return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
 
     const passwordsMatch = await BcryptUtils.comparePassword(password, user.password);
     if (!passwordsMatch) {
-      return res.status(400).send('E-mail e/ou senha inválidos');
+      return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
 
     const accessToken: string = await JwtUtils.generateJWTToken({ id: user.id }, '5h');
