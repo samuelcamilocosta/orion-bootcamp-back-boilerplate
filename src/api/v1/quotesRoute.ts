@@ -11,6 +11,6 @@ router.get('/quotes', AuthMiddleware.authValidation, QuoteController.getAllQuote
 router.get('/quotes/random', AuthMiddleware.authValidation, QuoteController.getRandomQuotes);
 router.get('/quotes/paginated', AuthMiddleware.authValidation, QuoteController.getPaginatedQuotes);
 router.get('/quotes/:id', AuthMiddleware.authValidation, QuoteController.getQuoteById);
-router.post('/quotes', QuoteMiddleware.validateQuote(), QuoteController.saveQuote);
+router.post('/quotes', AuthMiddleware.authValidation, QuoteMiddleware.validateQuote(), QuoteController.saveQuote);
 
 export default router;
