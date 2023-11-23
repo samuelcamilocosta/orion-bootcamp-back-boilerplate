@@ -8,6 +8,7 @@ import quotesRoute from './api/v1/quotesRoute';
 import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
+import userRegistrationRoute from './api/v1/userRegistrationRoute';
 
 const router = Router();
 

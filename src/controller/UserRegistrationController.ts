@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { UserRepository } from '../repositories/userRepository';
 import { User } from '../entity/Users';
 import { DeepPartial } from 'typeorm';
-import { MysqlDataSource } from '../config/database';
-import { BcryptUtils } from '../library/bcryptUtils';
 
 /**
  * Controller for allowing new users to be saved to the database.
@@ -64,14 +62,12 @@ export class UserRegistrationController {
     try {
       const { email, password } = req.body;
 
-      const hashPassword: string = await BcryptUtils.hashPassword(password);
-
       const newUser: DeepPartial<User> = {
         email,
-        password: hashPassword
+        password
       };
 
-      const createdUser = await MysqlDataSource.getRepository(User).save(newUser);
+      const createdUser: User = await UserRepository.createUser(newUser);
 
       res.status(201).json(createdUser.email);
     } catch {
