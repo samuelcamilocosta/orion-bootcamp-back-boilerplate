@@ -1,4 +1,4 @@
-import { PlanCard } from '../entity/PlanCards';
+import { PlanCard } from '../entity/PlanCard';
 import { MigrationInterface, QueryRunner, DeepPartial } from 'typeorm';
 
 const PLANCARDS: DeepPartial<PlanCard>[] = [

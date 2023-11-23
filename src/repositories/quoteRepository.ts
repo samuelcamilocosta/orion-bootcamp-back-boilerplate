@@ -43,4 +43,14 @@ export class QuoteRepository {
   public static async getRandomQuotes(count: number): Promise<Quote[]> {
     return MysqlDataSource.getRepository(Quote).createQueryBuilder().orderBy('RAND()').limit(count).getMany();
   }
+
+  /**
+   * Saves a new quote to the database.
+   *
+   * @param quote - The quote to be saved.
+   * @returns {Promise<Quote>} The saved Quote object.
+   */
+  public static async saveQuote(quote: Quote): Promise<Quote> {
+    return MysqlDataSource.getRepository(Quote).save(quote);
+  }
 }

@@ -6,7 +6,8 @@ import solesRoute from './api/v1/solesRoute';
 import logoutRoute from './api/v1/logoutRoute';
 import quotesRoute from './api/v1/quotesRoute';
 import planCardsRoute from './api/v1/planCardsRoute';
-import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import newPlanCardRoute from './api/v1/newPlanCardRoute';
+import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 
 const router = Router();
 
@@ -54,12 +55,29 @@ router.use('/v1', solesRoute);
 router.use('/v1', planCardsRoute);
 
 /**
+ * POST route for creating a new PlanCard data
+ *
+ * @route POST /new-plan-card
+ * @group plan cards data
+ */
+router.use('/v1', newPlanCardRoute);
+
+/**
  * PATCH route for logout
  *
  * @route PATCH /logout
  * @group Logout
  */
 router.use('/v1', logoutRoute);
+
+/**
+ * GET route for home page cards
+ *
+ * @route GET /get-home-page-cards
+ * @route POST /v1/create-home-page-card
+ * @group Home Page Cards
+ */
+router.use('/v1', homePageCardsRoute);
 
 /**
  * GET route for quotes
@@ -69,6 +87,12 @@ router.use('/v1', logoutRoute);
  */
 router.use('/v1', quotesRoute);
 
+/**
+ * GET route for home
+ *
+ * @route GET /
+ * @group Default
+ */
 router.get('/', new HomeController().hello);
 
 export default router;
