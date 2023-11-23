@@ -14,6 +14,8 @@ export class QuoteController {
    *   get:
    *     summary: Get all quotes
    *     tags: [Quotes]
+   *     security:
+   *       - bearerAuth: []
    *     responses:
    *       200:
    *         description: Returns all quotes
@@ -21,8 +23,6 @@ export class QuoteController {
    *           application/json:
    *             schema:
    *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Quote'
    */
   public static async getAllQuotes(_req: Request, res: Response): Promise<Response> {
     const quotes = await QuoteRepository.getQuotes();
@@ -36,6 +36,8 @@ export class QuoteController {
    *   get:
    *     summary: Get a quote by ID
    *     tags: [Quotes]
+   *     security:
+   *       - bearerAuth: []
    *     parameters:
    *       - in: path
    *         name: id
@@ -49,7 +51,7 @@ export class QuoteController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/schemas/Quote'
+   *               type: object
    *       404:
    *         description: Quote not found
    *         content:
@@ -78,6 +80,8 @@ export class QuoteController {
    *   get:
    *     summary: Get random quotes
    *     tags: [Quotes]
+   *     security:
+   *       - bearerAuth: []
    *     parameters:
    *       - in: query
    *         name: count
@@ -91,8 +95,6 @@ export class QuoteController {
    *           application/json:
    *             schema:
    *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Quote'
    */
   public static async getRandomQuotes(req: Request, res: Response): Promise<Response> {
     const { count } = req.query;
@@ -108,6 +110,8 @@ export class QuoteController {
    *   get:
    *     summary: Get paginated quotes
    *     tags: [Quotes]
+   *     security:
+   *       - bearerAuth: []
    *     parameters:
    *       - in: query
    *         name: page
@@ -126,8 +130,6 @@ export class QuoteController {
    *           application/json:
    *             schema:
    *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Quote'
    */
   public static async getPaginatedQuotes(req: Request, res: Response): Promise<Response> {
     const page = Number(req.query.page) || 1;
@@ -136,5 +138,60 @@ export class QuoteController {
     const quotes = await QuoteRepository.getQuotes(page, limit);
 
     return res.status(200).json(quotes);
+  }
+
+  /**
+   * @swagger
+   * /v1/quotes:
+   *  post:
+   *    summary: Save a new quote
+   *    tags: [Quotes]
+   *    security:
+   *      - bearerAuth: []
+   *    requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              author:
+   *                type: string
+   *                example: "Minha Mãe"
+   *              quote:
+   *                type: string
+   *                example: "Você não é todo mundo!"
+   *    responses:
+   *      201:
+   *        description: Returns the saved quote
+   *        content:
+   *          application/json:
+   *            schema:
+   *              type: object
+   *              properties:
+   *                author:
+   *                  type: string
+   *                quote:
+   *                  type: string
+   *                id:
+   *                  type: number
+   *                created_at:
+   *                  type: string
+   *      400:
+   *        description: Invalid request body
+   *        content:
+   *          application/json:
+   *            schema:
+   *              type: object
+   *              properties:
+   *                message:
+   *                 type: string
+   */
+  public static async saveQuote(req: Request, res: Response): Promise<Response> {
+    const quote = req.body;
+
+    const savedQuote = await QuoteRepository.saveQuote(quote);
+
+    return res.status(201).json(savedQuote);
   }
 }
