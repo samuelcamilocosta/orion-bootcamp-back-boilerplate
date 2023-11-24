@@ -1,4 +1,4 @@
-import { UpdateResult } from 'typeorm';
+import { UpdateResult, DeepPartial } from 'typeorm';
 import { MysqlDataSource } from '../config/database';
 import { JwtUtils } from '../library/jwtUtils';
 import { User } from '../entity/Users';
@@ -77,5 +77,17 @@ export class UserRepository {
     return MysqlDataSource.getRepository(User).update(userId, {
       accessToken: null
     });
+  }
+
+  /**
+   * createUser
+   *
+   * Saves new user to the database
+   *
+   * @param user - The user from the UserRegistrationController
+   * @returns A Promise<User> New user
+   */
+  public static async createUser(user: DeepPartial<User>): Promise<User> {
+    return MysqlDataSource.getRepository(User).save(user);
   }
 }

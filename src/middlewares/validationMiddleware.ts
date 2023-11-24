@@ -8,7 +8,7 @@ export class UserValidationsMiddleware {
    * @param password inserted by user when trying to authenticate.
    * @returns {boolean} If password or email format is invalid it returns false
    */
-  public static async validateEmailAndPassword(email: string, password: string): Promise<boolean> {
+  public static validateEmailAndPassword(email: string, password: string): boolean {
     return !this.validateEmail(email) || !this.validatePassword(password);
   }
 
