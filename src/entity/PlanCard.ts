@@ -6,16 +6,16 @@ export class PlanCard {
   id: number;
 
   @Column({ nullable: false })
-  planCardTitle: string;
+  cardTitle: string;
 
   @Column({ nullable: false })
-  planCardDescription: string;
+  cardDescription: string;
 
   @Column({ nullable: false })
-  planCardImage: string;
+  cardImage: string;
 
   @Column({ nullable: false })
-  planCardButtonText: string;
+  cardButtonText: string;
 
   @CreateDateColumn()
   created_at: Date;

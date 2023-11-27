@@ -80,16 +80,16 @@ export class PlanCardController {
    *           schema:
    *             type: object
    *             properties:
-   *               planCardTitle:
+   *               cardTitle:
    *                 type: string
    *                 example: Título do novo card exemplo
-   *               planCardDescription:
+   *               cardDescription:
    *                 type: string
    *                 example: Descrição do card exemplo
-   *               planCardImage:
+   *               cardImage:
    *                 type: string
    *                 example: Endereço da imagem exemplo
-   *               planCardButtonText:
+   *               cardButtonText:
    *                 type: string
    *                 example: Texto do botão exemplo
    *     responses:
@@ -105,13 +105,13 @@ export class PlanCardController {
    *                   properties:
    *                     id:
    *                       type: number
-   *                     planCardTitle:
+   *                     cardTitle:
    *                       type: string
-   *                     planCardDescription:
+   *                     cardDescription:
    *                       type: string
-   *                     planCardImage:
+   *                     cardImage:
    *                       type: string
-   *                     planCardButtonText:
+   *                     cardButtonText:
    *                       type: string
    *       500:
    *         description: Error when trying to post a new plan card
@@ -124,13 +124,13 @@ export class PlanCardController {
    *                   type: string
    */
   public static async createPlanCard(req: Request, res: Response): Promise<void> {
-    const { planCardTitle, planCardDescription, planCardImage, planCardButtonText } = req.body;
+    const { cardTitle, cardDescription, cardImage, cardButtonText } = req.body;
     try {
       const newPlanCard: DeepPartial<PlanCard> = {
-        planCardTitle,
-        planCardDescription,
-        planCardImage,
-        planCardButtonText
+        cardTitle,
+        cardDescription,
+        cardImage,
+        cardButtonText
       };
       const createPlanCard: PlanCard = await MysqlDataSource.getRepository(PlanCard).save(newPlanCard);
 
