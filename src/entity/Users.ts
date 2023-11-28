@@ -9,6 +9,9 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ default: '' })
+  name: string;
+
   @Column({ unique: true })
   email: string;
 
@@ -23,6 +26,12 @@ export class User {
 
   @Column({ nullable: true })
   accessToken: string;
+
+  @Column({ nullable: true })
+  confirmationToken: string;
+
+  @Column({ default: true })
+  pendingConfirmation: boolean;
 
   @CreateDateColumn()
   created_at: Date;

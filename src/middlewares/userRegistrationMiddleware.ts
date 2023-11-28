@@ -15,13 +15,35 @@ export class UserRegistrationValidations {
    * @param res - The response object.
    * @param next - The next middleware function in the stack.
    */
-  public static async checkEmailAndPasswordFormats(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { email, password } = req.body;
+  public static async checkEmailFormat(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { email } = req.body;
 
-    const emailOrPasswordInvalid = UserValidationsMiddleware.validateEmailAndPassword(email, password);
+    const emailValid = UserValidationsMiddleware.validateEmail(email);
 
-    if (emailOrPasswordInvalid) {
-      res.status(400).json({ error: 'Email e/ou senha inválidos' });
+    if (!emailValid) {
+      res.status(400).json({ error: 'Email inválido' });
+      return;
+    }
+
+    next();
+  }
+
+  /**
+   * checkEmailAndPasswordFormats
+   *
+   * Checks email and password formats, through UserValidationsMiddleware class
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkPasswordFormat(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { password } = req.body;
+
+    const passwordValid = UserValidationsMiddleware.validatePassword(password);
+
+    if (!passwordValid) {
+      res.status(400).json({ error: 'Senha inválida' });
       return;
     }
 
@@ -45,7 +67,28 @@ export class UserRegistrationValidations {
     if (!existingUser) {
       next();
     } else {
-      res.status(400).json({ error: 'Este email já está em uso!' });
+      res.status(400).json({ error: 'E-mail já cadastrado' });
+    }
+  }
+
+  /**
+   * checkIfConfirmationTokenIsValid
+   *
+   * Checks if there is a user registered with this confirmation token
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkIfConfirmationTokenIsValid(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { confirmationToken } = req.body;
+
+    const existingUser = await UserRepository.findUserByConfirmationToken(confirmationToken);
+
+    if (existingUser) {
+      next();
+    } else {
+      res.status(400).json({ error: 'Token de confirmação inválido' });
     }
   }
 }

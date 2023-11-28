@@ -9,6 +9,7 @@ import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import userConfirmationRoute from './api/v1/userConfirmationRoute';
 
 const router = Router();
 
@@ -20,6 +21,14 @@ const router = Router();
  * @group Authentication
  */
 router.use('/v1', userRegistrationRoute);
+
+/**
+ * POST route for user confirmations after registration
+ *
+ * @route POST /user-confirmation
+ * @group Users
+ */
+router.use('/v1', userConfirmationRoute);
 
 /**
  * POST route for user login (authentication)

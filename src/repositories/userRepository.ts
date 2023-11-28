@@ -90,4 +90,16 @@ export class UserRepository {
   public static async createUser(user: DeepPartial<User>): Promise<User> {
     return MysqlDataSource.getRepository(User).save(user);
   }
+
+  /**
+   * findUserByConfirmationToken
+   *
+   * Finds user by its confirmation token on registration to validate token
+   *
+   * @param confirmationToken - Token generated on registration, valid for 24 hours.
+   * @returns A Promise<User> New user or undefined if no user with this token
+   */
+  public static async findUserByConfirmationToken(confirmationToken: string): Promise<User | undefined> {
+    return MysqlDataSource.getRepository(User).findOneBy({ confirmationToken: confirmationToken });
+  }
 }
