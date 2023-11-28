@@ -46,4 +46,10 @@ export class User {
       this.password = await BcryptUtils.hashPassword(this.password);
     }
   }
+
+  async hashConfirmToken(): Promise<void> {
+    if (this.confirmationToken) {
+      this.confirmationToken = await BcryptUtils.hashConfirmToken(this.confirmationToken);
+    }
+  }
 }

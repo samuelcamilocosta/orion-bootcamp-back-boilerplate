@@ -66,7 +66,7 @@ export class NodemailerService {
   public static async sendUserRegistrationConfirmationEmail(email: string): Promise<void> {
     const user: User = await UserRepository.findUserByEmail(email);
     const userName: string = user.name.split(' ')[0];
-    const confirmationLink: string = 'http://localhost:4444/v1/user-confirmation';
+    const confirmationLink: string = 'http://localhost:4200';
 
     const mailOptions = {
       from: 'admin',
@@ -81,7 +81,8 @@ export class NodemailerService {
             <h3>Olá ${userName}</h3><br />
             <p>Obrigado por se juntar à nossa comunidade ORION MARTE! </p>
             <p>Para confirmar seu cadastro, clique no link abaixo: </p><br />
-            <a href="${confirmationLink}">Confirme seu cadastro</a><br />
+            <a href="${confirmationLink}?confirmationToken=${user.confirmationToken}">Confirme seu cadastro</a>
+            <br>
             <p><b>Importante:</b> O Link é válido por 24 horas</p>
             <p>Se você não solicitou este e-mail, por favor, ignore-o. Caso</p>
             <p>contrário, esperamos que aproveite a exploração do vasto</p>

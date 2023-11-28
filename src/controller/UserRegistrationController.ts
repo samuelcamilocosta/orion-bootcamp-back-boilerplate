@@ -5,6 +5,7 @@ import { DeepPartial } from 'typeorm';
 import { NodemailerService } from '../library/nodemailerUtils';
 import { JwtUtils } from '../library/jwtUtils';
 import { MysqlDataSource } from '../config/database';
+import { BcryptUtils } from '../library/bcryptUtils';
 
 /**
  * Controller for allowing new users to be saved to the database.
@@ -109,7 +110,7 @@ export class UserRegistrationController {
    *           schema:
    *             type: object
    *             properties:
-   *               token:
+   *               confirmationToken:
    *                 type: string
    *                 example: your_confirmation_token_here
    *     responses:
@@ -147,11 +148,21 @@ export class UserRegistrationController {
    *                   type: string
    *                   example: Could not confirm user registration.
    */
-  public static async confirmRegistration(req: Request, res: Response): Promise<void> {
+  public static async confirmRegistration(req: Request, res: Response): Promise<Response> {
     try {
-      const { token } = req.body;
+      const { confirmationToken } = req.body;
 
-      const user = await UserRepository.findUserByConfirmationToken(token);
+      const user = await UserRepository.findUserByConfirmationToken(confirmationToken);
+
+      if (!user) {
+        return res.status(400).json({ error: 'Token inválido' });
+      }
+
+      const confirmTokensMatch = await BcryptUtils.compareHashConfirmToken(confirmationToken, user.confirmationToken);
+
+      if (!confirmTokensMatch) {
+        return res.status(400).json({ error: 'Token inválido' });
+      }
 
       user.pendingConfirmation = false;
       user.confirmationToken = null;

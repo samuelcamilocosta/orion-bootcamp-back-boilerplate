@@ -30,4 +30,31 @@ export class BcryptUtils {
   public static async comparePassword(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
     return bcrypt.compare(plainTextPassword, hashedPassword);
   }
+
+  /**
+   * hashConfirmToken
+   *
+   * Generates encrypted confirmToken using 'bcrypt.hash()' function.
+   *
+   * @param confirmToken by user.
+   * @returns {Promise<string>} String representing the encrypted version of the confirmToken, returned from
+   * asynchronous call to bcrypt api.
+   */
+  public static async hashConfirmToken(confirmToken: string): Promise<string> {
+    const saltRounds = 8;
+    return bcrypt.hash(confirmToken, saltRounds);
+  }
+
+  /**
+   * compareHashConfirmToken
+   *
+   * Compares the actual confirmToken with its encrypted version stored in the database.
+   *
+   * @param plainConfirmToken representing actual confirmToken by user.
+   * @param hashedConfirmToken representing ecrypted confirmToken.
+   * @returns {Promise<boolean>} True or false regarding correspondence between the 2 confirmTokens.
+   */
+  public static async compareHashConfirmToken(plainConfirmToken: string, hashedConfirmToken: string): Promise<boolean> {
+    return bcrypt.compare(plainConfirmToken, hashedConfirmToken);
+  }
 }
