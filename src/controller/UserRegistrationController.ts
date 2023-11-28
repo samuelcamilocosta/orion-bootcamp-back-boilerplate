@@ -81,7 +81,8 @@ export class UserRegistrationController {
 
       const userData: DeepPartial<User> = {
         email: createdUser.email,
-        confirmationToken: createdUser.confirmationToken
+        confirmationToken: createdUser.confirmationToken,
+        created_at: createdUser.created_at
       };
 
       res.status(201).json(userData);

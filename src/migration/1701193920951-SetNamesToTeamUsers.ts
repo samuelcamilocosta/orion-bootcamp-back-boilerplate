@@ -1,7 +1,15 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { User } from '../entity/Users';
 
+/**
+ * This class represents a migration to insert (and remove) names for the team users.
+ */
 export class SetNamesToTeamUsers1701193920951 implements MigrationInterface {
+  /**
+   * up
+   * Run the migration and add names to our team users using the first part of each email (before @)
+   * @param queryRunner - QueryRunner object, used to make database queries.
+   */
   public async up(queryRunner: QueryRunner): Promise<void> {
     const usersWithEmptyName = await queryRunner.manager.find(User, { where: { name: '' } });
 
@@ -13,6 +21,11 @@ export class SetNamesToTeamUsers1701193920951 implements MigrationInterface {
     });
   }
 
+  /**
+   * down
+   * Run the migration and add empty strings as names to our team users.
+   * @param queryRunner - QueryRunner object, used to make database queries.
+   */
   public async down(queryRunner: QueryRunner): Promise<void> {
     const allUsers: User[] = await queryRunner.manager.find(User);
 
