@@ -5,7 +5,6 @@ import { DeepPartial } from 'typeorm';
 import { NodemailerService } from '../library/nodemailerUtils';
 import { JwtUtils } from '../library/jwtUtils';
 import { MysqlDataSource } from '../config/database';
-import { BcryptUtils } from '../library/bcryptUtils';
 
 /**
  * Controller for allowing new users to be saved to the database.
@@ -29,6 +28,9 @@ export class UserRegistrationController {
    *           schema:
    *             type: object
    *             properties:
+   *               name:
+   *                 type: string
+   *                 example: Rafael
    *               email:
    *                 type: string
    *                 example: algumemail@servidor.com
@@ -37,38 +39,18 @@ export class UserRegistrationController {
    *                 example: senha#67@Maluca!
    *     responses:
    *       201:
-   *         description: JSON with user data creates new user successfully
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 User:
-   *                   type: object
-   *                   properties:
-   *                     id:
-   *                       type: number
-   *                     email:
-   *                       type: string
-   *                     password:
-   *                       type: string
+   *         description: Only status without body
    *       500:
-   *         description: Error when trying to post a new User
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 message:
-   *                   type: string
+   *         description: Only status without body
    */
   public static async userRegistration(req: Request, res: Response): Promise<void> {
     try {
-      const { id, email, password } = req.body;
+      const { id, name, email, password } = req.body;
 
       const confirmationToken = await JwtUtils.generateJWTToken({ userId: id }, '24h');
 
       const newUser: DeepPartial<User> = {
+        name,
         email,
         password
       };
@@ -76,19 +58,13 @@ export class UserRegistrationController {
       newUser.confirmationToken = confirmationToken;
       newUser.pendingConfirmation = true;
 
-      const createdUser: User = await UserRepository.createUser(newUser);
+      await UserRepository.createUser(newUser);
 
       NodemailerService.sendUserRegistrationConfirmationEmail(email);
 
-      const userData: DeepPartial<User> = {
-        email: createdUser.email,
-        confirmationToken: createdUser.confirmationToken,
-        created_at: createdUser.created_at
-      };
-
-      res.status(201).json(userData);
+      res.status(201).send();
     } catch {
-      res.status(500).json({ error: 'Não foi possível salvar o usuário' });
+      res.status(500).send();
     }
   }
 
@@ -112,7 +88,7 @@ export class UserRegistrationController {
    *             properties:
    *               confirmationToken:
    *                 type: string
-   *                 example: your_confirmation_token_here
+   *                 example: cole_aqui_o_confirmation_token
    *     responses:
    *       200:
    *         description: User registration confirmed successfully
@@ -155,12 +131,6 @@ export class UserRegistrationController {
       const user = await UserRepository.findUserByConfirmationToken(confirmationToken);
 
       if (!user) {
-        return res.status(400).json({ error: 'Token inválido' });
-      }
-
-      const confirmTokensMatch = await BcryptUtils.compareHashConfirmToken(confirmationToken, user.confirmationToken);
-
-      if (!confirmTokensMatch) {
         return res.status(400).json({ error: 'Token inválido' });
       }
 
