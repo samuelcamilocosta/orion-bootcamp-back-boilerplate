@@ -3,15 +3,21 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 const PLANS = [
   {
     type: 'monthly',
-    price: 19.91
+    price: 19.91,
+    saves_percentage: null,
+    description: null
   },
   {
     type: 'semesterly',
-    price: 109.84
+    price: 109.84,
+    saves_percentage: 8,
+    description: 'Equivalente a R$ 18,30 por mês.'
   },
   {
     type: 'annually',
-    price: 202.98
+    price: 202.98,
+    saves_percentage: 15,
+    description: 'Equivalente a R$ 16,92 por mês.'
   }
 ];
 
@@ -27,7 +33,9 @@ export class PlanPopulation1701294156204 implements MigrationInterface {
     for (const plan of PLANS) {
       const newPlan = await queryRunner.manager.create('Plan', {
         type: plan.type,
-        price: plan.price
+        price: plan.price,
+        saves_percentage: plan.saves_percentage,
+        description: plan.description
       });
 
       await queryRunner.manager.save('Plan', newPlan);
@@ -43,7 +51,12 @@ export class PlanPopulation1701294156204 implements MigrationInterface {
    */
   public async down(queryRunner: QueryRunner): Promise<void> {
     for (const plan of PLANS) {
-      await queryRunner.manager.delete('Plan', { type: plan.type, price: plan.price });
+      await queryRunner.manager.delete('Plan', {
+        type: plan.type,
+        price: plan.price,
+        saves_percentage: plan.saves_percentage,
+        description: plan.description
+      });
     }
   }
 }
