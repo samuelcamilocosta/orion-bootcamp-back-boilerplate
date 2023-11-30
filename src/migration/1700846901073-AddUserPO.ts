@@ -18,9 +18,9 @@ const USERS = [
 
 export class AddUserPO1700846440167 implements MigrationInterface {
   /**
-   * Este método é chamado quando a migração é aplicada.
-   * Ele cria e salva novos usuários no banco de dados.
-   * @param  queryRunner - O executor de consultas do TypeORM.
+   * This method is called when the migration is applied.
+   * It creates and saves new users in the database.
+   * @param  queryRunner - The TypeORM query executor.
    */
   public async up(queryRunner: QueryRunner): Promise<void> {
     for (const user of USERS) {
@@ -34,9 +34,9 @@ export class AddUserPO1700846440167 implements MigrationInterface {
     }
   }
   /**
-   * Este método é chamado quando a migração é revertida.
-   * Ele deleta os usuários adicionados pelo método up.
-   * @param queryRunner - O executor de consultas do TypeORM.
+   * This method is called when the migration is reverted.
+   * It deletes the users added by the up method.
+   * @param queryRunner - The TypeORM query executor.
    */
   public async down(queryRunner: QueryRunner): Promise<void> {
     for (const user of USERS) {
