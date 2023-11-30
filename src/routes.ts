@@ -9,6 +9,7 @@ import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import plansRoute from './api/v1/plansRoute';
 
 const router = Router();
 
@@ -87,6 +88,14 @@ router.use('/v1', homePageCardsRoute);
  * @group Quotes
  */
 router.use('/v1', quotesRoute);
+
+/**
+ * GET route for plans
+ *
+ * @route GET /plans
+ * @group Plans
+ */
+router.use('/v1', plansRoute);
 
 /**
  * GET route for home
