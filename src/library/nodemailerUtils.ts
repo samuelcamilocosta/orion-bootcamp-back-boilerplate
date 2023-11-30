@@ -66,6 +66,9 @@ export class NodemailerService {
   public static async sendUserRegistrationConfirmationEmail(email: string): Promise<void> {
     const user: User = await UserRepository.findUserByEmail(email);
     const userName: string = user.name.split(' ')[0];
+    const lowerCaseStr: string = userName.toLowerCase();
+    const formattedUserName: string = lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
+
     const confirmationLink: string = 'http://localhost:4200';
 
     const mailOptions = {
@@ -78,7 +81,7 @@ export class NodemailerService {
             <title>Recuperação de senha</title>
           </head>
           <body>
-            <h3>Olá ${userName}</h3><br />
+            <h3>Olá ${formattedUserName}</h3><br />
             <p>Obrigado por se juntar à nossa comunidade ORION MARTE! </p>
             <p>Para confirmar seu cadastro, clique no link abaixo: </p><br />
             <a href="${confirmationLink}?confirmationToken=${user.confirmationToken}">Confirme seu cadastro</a>

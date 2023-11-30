@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 import { UserRepository } from '../repositories/userRepository';
 import { UserValidationsMiddleware } from './validationMiddleware';
+
+const verifyAsync = promisify(jwt.verify);
+const secretKey = process.env.JWT_SECRET;
+
+interface RequestWithUserId extends Request {
+  id?: string;
+}
 
 /**
  * Validations for user registration
@@ -74,21 +83,27 @@ export class UserRegistrationValidations {
   /**
    * checkIfConfirmationTokenIsValid
    *
-   * Checks if there is a user registered with this confirmation token
+   * Checks if user id (from request) equals the id from decoded confirmation token
    *
    * @param req - The request object.
    * @param res - The response object.
    * @param next - The next middleware function in the stack.
    */
-  public static async checkIfConfirmationTokenIsValid(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { confirmationToken } = req.body;
+  public static async checkIfConfirmationTokenIsValid(req: RequestWithUserId, res: Response, next: NextFunction): Promise<void> {
+    const confirmationToken: string | undefined = req.headers['authorization'];
 
-    const existingUser = await UserRepository.findUserByConfirmationToken(confirmationToken);
+    if (confirmationToken && confirmationToken.startsWith('Bearer ')) {
+      const token: string = confirmationToken.substring(7);
 
-    if (existingUser) {
-      next();
+      try {
+        const decoded = await verifyAsync(token, secretKey);
+        req.id = decoded.id;
+        next();
+      } catch (err) {
+        res.status(401).end();
+      }
     } else {
-      res.status(400).json({ error: 'Token de confirmação inválido' });
+      res.status(401).end();
     }
   }
 }

@@ -45,9 +45,7 @@ export class UserRegistrationController {
    */
   public static async userRegistration(req: Request, res: Response): Promise<void> {
     try {
-      const { id, name, email, password } = req.body;
-
-      const confirmationToken = await JwtUtils.generateJWTToken({ userId: id }, '24h');
+      const { name, email, password } = req.body;
 
       const newUser: DeepPartial<User> = {
         name,
@@ -55,12 +53,15 @@ export class UserRegistrationController {
         password
       };
 
-      newUser.confirmationToken = confirmationToken;
       newUser.pendingConfirmation = true;
 
-      await UserRepository.createUser(newUser);
+      const createdUser: User = await UserRepository.createUser(newUser);
 
-      NodemailerService.sendUserRegistrationConfirmationEmail(email);
+      const confirmationToken = await JwtUtils.generateJWTToken({ id: createdUser.id }, '24h');
+
+      await UserRepository.saveConfirmationTokenInUser(createdUser.id, confirmationToken);
+
+      await NodemailerService.sendUserRegistrationConfirmationEmail(email);
 
       res.status(201).send();
     } catch {
@@ -74,6 +75,8 @@ export class UserRegistrationController {
    *   post:
    *     summary: Confirm user registration with confirmation token
    *     tags: [Users]
+   *     security:
+   *       - bearerAuth: []
    *     description: Confirm user registration using the confirmation token received via email.
    *     consumes:
    *       - application/json
@@ -88,7 +91,7 @@ export class UserRegistrationController {
    *             properties:
    *               confirmationToken:
    *                 type: string
-   *                 example: cole_aqui_o_confirmation_token
+   *                 example: place_the_token_here
    *     responses:
    *       200:
    *         description: User registration confirmed successfully
@@ -128,20 +131,26 @@ export class UserRegistrationController {
     try {
       const { confirmationToken } = req.body;
 
+      if (!confirmationToken) {
+        return res.status(400).json({ error: 'Token não encontrado' });
+      }
+
       const user = await UserRepository.findUserByConfirmationToken(confirmationToken);
 
       if (!user) {
-        return res.status(400).json({ error: 'Token inválido' });
+        return res.status(400).json({ error: 'Usuário não encontrado' });
       }
+
+      const userId = JwtUtils.getUserIdFromToken(confirmationToken);
 
       user.pendingConfirmation = false;
       user.confirmationToken = null;
 
       await MysqlDataSource.getRepository(User).save(user);
 
-      res.status(200).json({ message: 'Usuário confirmado com sucesso' });
-    } catch {
-      res.status(500).json({ error: 'Não foi possível confirmar o registro do usuário.' });
+      return res.status(200).json({ message: 'Usuário confirmado com sucesso', userId });
+    } catch (error) {
+      return res.status(500).json({ error: 'Não foi possível confirmar o registro do usuário.' });
     }
   }
 }

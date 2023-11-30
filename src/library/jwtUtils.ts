@@ -35,4 +35,27 @@ export class JwtUtils {
       return { error };
     }
   }
+
+  /**
+   * getUserIdFromToken
+   *
+   * Gets user id from a token.
+   *
+   * @param token - The JWT token to be verified.
+   * @returns a number, if the id is found, or a string in the case of an error
+   */
+  public static getUserIdFromToken(token: string): number | null {
+    const decodedToken = jwt.decode(token);
+
+    if (decodedToken && 'id' in decodedToken) {
+      const userIdString = decodedToken.id;
+      const userId: number = Number(userIdString);
+
+      if (!isNaN(userId)) {
+        return userId;
+      }
+    }
+
+    return null;
+  }
 }
