@@ -90,14 +90,12 @@ export class UserRegistrationValidations {
    * @param next - The next middleware function in the stack.
    */
   public static async checkIfConfirmationTokenIsValid(req: RequestWithUserId, res: Response, next: NextFunction): Promise<void> {
-    const confirmationToken: string | undefined = req.headers['authorization'];
+    const confirmationToken: string | undefined = req.body.confirmationToken;
 
-    if (confirmationToken && confirmationToken.startsWith('Bearer ')) {
-      const token: string = confirmationToken.substring(7);
-
+    if (confirmationToken) {
       try {
-        const decoded = await verifyAsync(token, secretKey);
-        req.id = decoded.id;
+        const decoded = await verifyAsync(confirmationToken, secretKey);
+        req.body.id = decoded.id;
         next();
       } catch (err) {
         res.status(401).end();

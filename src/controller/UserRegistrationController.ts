@@ -75,8 +75,6 @@ export class UserRegistrationController {
    *   post:
    *     summary: Confirm user registration with confirmation token
    *     tags: [Users]
-   *     security:
-   *       - bearerAuth: []
    *     description: Confirm user registration using the confirmation token received via email.
    *     consumes:
    *       - application/json
@@ -141,16 +139,17 @@ export class UserRegistrationController {
         return res.status(400).json({ error: 'Usuário não encontrado' });
       }
 
-      const userId = JwtUtils.getUserIdFromToken(confirmationToken);
+      const userId = req.body.id;
+      console.log(userId);
 
       user.pendingConfirmation = false;
       user.confirmationToken = null;
 
       await MysqlDataSource.getRepository(User).save(user);
 
-      return res.status(200).json({ message: 'Usuário confirmado com sucesso', userId });
+      return res.status(201).send();
     } catch (error) {
-      return res.status(500).json({ error: 'Não foi possível confirmar o registro do usuário.' });
+      return res.status(500).send();
     }
   }
 }
