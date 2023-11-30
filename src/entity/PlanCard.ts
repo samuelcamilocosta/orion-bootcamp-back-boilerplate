@@ -15,6 +15,9 @@ export class PlanCard {
   cardImage: string;
 
   @Column({ nullable: false })
+  cardImageDescription: string;
+
+  @Column({ nullable: false })
   cardButtonText: string;
 
   @CreateDateColumn()
