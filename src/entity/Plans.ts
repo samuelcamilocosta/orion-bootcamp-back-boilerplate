@@ -10,4 +10,10 @@ export class Plan {
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
+
+  @Column({ nullable: true })
+  saves_percentage: number;
+
+  @Column({ nullable: true })
+  description: string;
 }
