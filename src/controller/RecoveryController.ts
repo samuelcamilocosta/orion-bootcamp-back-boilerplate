@@ -38,7 +38,7 @@ export class RecoveryController {
     }
 
     const token = await UserRepository.addPasswordRecoveryToken(user, user.id);
-    const recoveryLink = 'http://localhost:4200/recovery/home?token=${token}';
+    const recoveryLink = 'http://localhost:4200/newpassword?token=${token}';
 
     NodemailerService.sendPasswordRecoveryEmail(user.email, recoveryLink);
 

@@ -19,7 +19,7 @@ export class UserRepository {
    */
   public static async addPasswordRecoveryToken(user: User, userId: number): Promise<string> {
     const token = await JwtUtils.generateJWTToken({ userId: userId }, '24h');
-    const recoveryLink = `http://localhost:4200/page/recovey?token=${token}`;
+    const recoveryLink = `http://localhost:4200/newpassword?token=${token}`;
 
     user.passwordRecoveryToken = token;
     await MysqlDataSource.getRepository(User).update(user.id, {
