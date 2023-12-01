@@ -2,8 +2,6 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 
 import { BcryptUtils } from '../library/bcryptUtils';
 
-import { userRoles } from '../constants/userRoles';
-
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -14,9 +12,6 @@ export class User {
 
   @Column()
   password: string;
-
-  @Column({ default: userRoles['Free'] })
-  role: string;
 
   @Column({ nullable: true })
   passwordRecoveryToken: string;

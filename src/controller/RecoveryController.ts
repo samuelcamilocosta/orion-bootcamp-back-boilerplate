@@ -44,7 +44,29 @@ export class RecoveryController {
 
     return res.status(204).end();
   }
-
+  /**
+   * @swagger
+   * /v1/reset-password:
+   *   post:
+   *     summary: Reset password for a user.
+   *     tags: [Recovery]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               token:
+   *                 type: string
+   *               newPassword:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Password reset successful
+   *       400:
+   *         description: Invalid new password format or Invalid or expired token
+   */
   public static async resetPassword(req: Request, res: Response): Promise<Response> {
     const { token, newPassword } = req.body;
 

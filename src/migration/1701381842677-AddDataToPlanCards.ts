@@ -3,24 +3,26 @@ import { MigrationInterface, QueryRunner, DeepPartial } from 'typeorm';
 
 const PLANCARDS: DeepPartial<PlanCard>[] = [
   {
-    planCardTitle: 'Plano Pesquisador (Premium)',
-    planCardDescription: 'Desbloqueie acesso total às maravilhas de Marte com o Plano Pesquisador (Premium) do Orion Marte.',
-    planCardImage: 'http://amigoviolao.com/wp-content/uploads/2023/11/img_pesquisador_plan_Orion_Marte.jpg',
-    planCardButtonText: 'VEJA COMO SE TORNAR UM PESQUISADOR'
+    cardTitle: 'Plano Pesquisador (Premium)',
+    cardDescription: 'Desbloqueie acesso total às maravilhas de Marte com o Plano Pesquisador (Premium) do Orion Marte.',
+    cardImage: 'http://amigoviolao.com/wp-content/uploads/2023/11/img_pesquisador_plan_Orion_Marte.jpg',
+    cardImageDescription: 'Astronauta',
+    cardButtonText: 'VEJA COMO SE TORNAR UM PESQUISADOR'
   },
   {
-    planCardTitle: 'Plano Astronauta (Enterprise)',
-    planCardDescription:
+    cardTitle: 'Plano Astronauta (Enterprise)',
+    cardDescription:
       'Maximize seu potencial explorador com o Plano Astronauta: soluções personalizadas, suporte exclusivo e pacote Premium.',
-    planCardImage: 'http://amigoviolao.com/wp-content/uploads/2023/11/img_astronauta_plan_Orion_Marte.jpg',
-    planCardButtonText: 'VEJA COMO SE TORNAR UM ASTRONAUTA'
+    cardImage: 'http://amigoviolao.com/wp-content/uploads/2023/11/img_astronauta_plan_Orion_Marte.jpg',
+    cardImageDescription: 'Astronauta em marte',
+    cardButtonText: 'VEJA COMO SE TORNAR UM ASTRONAUTA'
   }
 ];
 
 /**
  * Saves the above data as PlanCards in the database
  */
-export class AddPlanCards1699903465157 implements MigrationInterface {
+export class AddDataToPlanCards1701381842677 implements MigrationInterface {
   /**
    * up
    *
@@ -31,10 +33,11 @@ export class AddPlanCards1699903465157 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     for (const planCard of PLANCARDS) {
       const newPlanCard = await queryRunner.manager.create('PlanCard', {
-        planCardTitle: planCard.planCardTitle,
-        planCardDescription: planCard.planCardDescription,
-        planCardImage: planCard.planCardImage,
-        planCardButtonText: planCard.planCardButtonText
+        cardTitle: planCard.cardTitle,
+        cardDescription: planCard.cardDescription,
+        cardImage: planCard.cardImage,
+        cardImageDescription: planCard.cardImageDescription,
+        cardButtonText: planCard.cardButtonText
       });
 
       await queryRunner.manager.save('PlanCard', newPlanCard);
@@ -50,7 +53,7 @@ export class AddPlanCards1699903465157 implements MigrationInterface {
    */
   public async down(queryRunner: QueryRunner): Promise<void> {
     for (const planCard of PLANCARDS) {
-      await queryRunner.manager.delete('PlanCards', { planCardTitle: planCard.planCardTitle });
+      await queryRunner.manager.delete('PlanCards', { cardTitle: planCard.cardTitle });
     }
   }
 }
