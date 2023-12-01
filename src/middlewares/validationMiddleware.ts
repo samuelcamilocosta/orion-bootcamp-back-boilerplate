@@ -33,7 +33,7 @@ export class UserValidationsMiddleware {
    * @returns {boolean} If password format is valid or not
    * (Minimum 8 chars, 1 uppercase, 1 lowercase, 1 number and 1 special character)
    */
-  private static validatePassword(password: string): boolean {
+  public static validatePassword(password: string): boolean {
     return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password);
   }
 }

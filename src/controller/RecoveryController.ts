@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../repositories/userRepository';
 import { NodemailerService } from '../library/nodemailerUtils';
+import { JwtUtils } from '../library/jwtUtils';
+import { UserValidationsMiddleware } from '../middlewares/validationMiddleware';
 
 /**
  * Controller user password recovery. Returns status 200 if user is found or not. If
@@ -35,10 +37,31 @@ export class RecoveryController {
       return res.status(204).end();
     }
 
-    await UserRepository.addPasswordRecoveryToken(user, user.id);
+    const token = await UserRepository.addPasswordRecoveryToken(user, user.id);
+    const recoveryLink = 'http://localhost:4200/recovery/home?token=${token}';
 
-    NodemailerService.sendPasswordRecoveryEmail(user.email);
+    NodemailerService.sendPasswordRecoveryEmail(user.email, recoveryLink);
 
     return res.status(204).end();
+  }
+
+  public static async resetPassword(req: Request, res: Response): Promise<Response> {
+    const { token, newPassword } = req.body;
+
+    if (!UserValidationsMiddleware.validatePassword(newPassword)) {
+      return res.status(400).json({ message: 'Invalid new password format' });
+    }
+
+    try {
+      const { userId } = await JwtUtils.verifyJWTToken(token);
+
+      await UserRepository.updatePassword(userId, newPassword);
+
+      await UserRepository.deletePasswordRecoveryToken(userId);
+
+      return res.status(200).json({ message: 'Password reset successful' });
+    } catch (error) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
   }
 }

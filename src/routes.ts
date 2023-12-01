@@ -9,9 +9,10 @@ import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import resetPasswordRoute from './api/v1/resetPasswordRoute';
 
 const router = Router();
-
+router.use('/v1', resetPasswordRoute);
 /**
  * POST route for user registration
  * Logic on controller/UserRegistrationController.ts

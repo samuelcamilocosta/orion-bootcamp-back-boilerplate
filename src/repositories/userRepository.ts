@@ -19,13 +19,14 @@ export class UserRepository {
    */
   public static async addPasswordRecoveryToken(user: User, userId: number): Promise<string> {
     const token = await JwtUtils.generateJWTToken({ userId: userId }, '24h');
+    const recoveryLink = `http://localhost:4200/page/recovey?token=${token}`;
 
     user.passwordRecoveryToken = token;
     await MysqlDataSource.getRepository(User).update(user.id, {
       passwordRecoveryToken: token
     });
 
-    return token;
+    return recoveryLink;
   }
 
   /**
@@ -89,5 +90,18 @@ export class UserRepository {
    */
   public static async createUser(user: DeepPartial<User>): Promise<User> {
     return MysqlDataSource.getRepository(User).save(user);
+  }
+
+  public static async updatePassword(userId: number, newPassword: string): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      password: newPassword,
+      passwordRecoveryToken: null
+    });
+  }
+
+  public static async deletePasswordRecoveryToken(userId: number): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      passwordRecoveryToken: null
+    });
   }
 }
