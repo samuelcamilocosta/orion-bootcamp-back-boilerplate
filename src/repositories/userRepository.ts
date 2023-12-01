@@ -91,8 +91,33 @@ export class UserRepository {
   public static async createUser(user: DeepPartial<User>): Promise<User> {
     return MysqlDataSource.getRepository(User).save(user);
   }
+  /**
+   * findUserByConfirmationToken
+   *
+   * Finds user by its confirmation token on registration to validate token
+   *
+   * @param confirmationToken - Token generated on registration, valid for 24 hours.
+   * @returns A Promise<User> New user or undefined if no user with this token
+   */
+  public static async findUserByConfirmationToken(confirmationToken: string): Promise<User | undefined> {
+    return MysqlDataSource.getRepository(User).findOneBy({ confirmationToken: confirmationToken });
+  }
 
-  public static async updatePassword(userId: number, newPassword: string): Promise<void> {
+  /**
+   * saveConfirmationTokenInUser
+   *
+   * Saves the confirmation token in the user object after registration
+   *
+   * @param userId ID used as reference to find the user.
+   * @param token used to update user's token.
+   * @returns {Promise<UpdateResult>} Returns updated user with the new confirmation token.
+   */
+  public static async saveConfirmationTokenInUser(userId: number, token: string): Promise<UpdateResult> {
+    return MysqlDataSource.getRepository(User).update(userId, {
+      confirmationToken: token
+    });
+  }
+   public static async updatePassword(userId: number, newPassword: string): Promise<void> {
     await MysqlDataSource.getRepository(User).update(userId, {
       password: newPassword,
       passwordRecoveryToken: null
@@ -102,6 +127,6 @@ export class UserRepository {
   public static async deletePasswordRecoveryToken(userId: number): Promise<void> {
     await MysqlDataSource.getRepository(User).update(userId, {
       passwordRecoveryToken: null
-    });
+    }
   }
 }
