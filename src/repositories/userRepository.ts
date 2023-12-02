@@ -91,4 +91,30 @@ export class UserRepository {
   public static async createUser(user: DeepPartial<User>): Promise<User> {
     return MysqlDataSource.getRepository(User).save(user);
   }
+
+  /**
+   * Updates the password of a user.
+   *
+   * @param userId - The id of the user whose password will be updated.
+   * @param newPassword - The new password for the user.
+   * @returns A Promise<void> that is resolved when the update operation is completed.
+   */
+  public static async updatePassword(userId: number, newPassword: string): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      password: newPassword,
+      passwordRecoveryToken: null
+    });
+  }
+
+  /**
+   * Deletes the password recovery token of a user.
+   *
+   * @param userId - The id of the user whose password recovery token will be deleted.
+   * @returns A Promise<void> that is resolved when the update operation is completed.
+   */
+  public static async deletePasswordRecoveryToken(userId: number): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      passwordRecoveryToken: null
+    });
+  }
 }
