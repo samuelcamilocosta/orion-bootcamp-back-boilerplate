@@ -7,11 +7,9 @@ const router = Router();
 router.use(bodyParser.json());
 
 router.post(
-  '/user-registration',
-  UserRegistrationValidations.checkEmailFormat,
-  UserRegistrationValidations.checkPasswordFormat,
-  UserRegistrationValidations.checkIfUserExists,
-  UserRegistrationController.userRegistration
+  '/user-confirmation',
+  UserRegistrationValidations.checkIfConfirmationTokenIsValid,
+  UserRegistrationController.confirmRegistration
 );
 
 export default router;

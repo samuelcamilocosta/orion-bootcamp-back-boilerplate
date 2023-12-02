@@ -20,7 +20,7 @@ export class UserValidationsMiddleware {
    * @param email inserted by user when trying to authenticate.
    * @returns {boolean} If password format is valid or not
    */
-  private static validateEmail(email: string): boolean {
+  public static validateEmail(email: string): boolean {
     return /\S+@\S+\.\S+/.test(email);
   }
 
