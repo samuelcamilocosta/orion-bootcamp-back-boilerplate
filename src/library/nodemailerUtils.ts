@@ -63,9 +63,8 @@ export class NodemailerService {
    *
    * @param email - The email address to send the user registration confirmation email to.
    */
-  public static async sendUserRegistrationConfirmationEmail(email: string): Promise<void> {
-    const user: User = await UserRepository.findUserByEmail(email);
-    const userName: string = user.name.split(' ')[0];
+  public static async sendUserRegistrationConfirmationEmail(email: string, name: string, token: string): Promise<void> {
+    const userName: string = name.split(' ')[0];
     const lowerCaseStr: string = userName.toLowerCase();
     const formattedUserName: string = lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
 
@@ -84,7 +83,7 @@ export class NodemailerService {
             <h3>Olá ${formattedUserName}</h3><br />
             <p>Obrigado por se juntar à nossa comunidade ORION MARTE! </p>
             <p>Para confirmar seu cadastro, clique no link abaixo: </p><br />
-            <a href="${confirmationLink}?confirmationToken=${user.confirmationToken}">Confirme seu cadastro</a>
+            <a href="${confirmationLink}?confirmationToken=${token}">Confirme seu cadastro</a>
             <br>
             <p><b>Importante:</b> O Link é válido por 24 horas</p>
             <p>Se você não solicitou este e-mail, por favor, ignore-o. Caso</p>

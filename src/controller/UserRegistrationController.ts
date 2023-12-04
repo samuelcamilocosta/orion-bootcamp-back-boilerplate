@@ -50,10 +50,9 @@ export class UserRegistrationController {
       const newUser: DeepPartial<User> = {
         name,
         email,
-        password
+        password,
+        pendingConfirmation: true
       };
-
-      newUser.pendingConfirmation = true;
 
       const createdUser: User = await UserRepository.createUser(newUser);
 
@@ -61,9 +60,9 @@ export class UserRegistrationController {
 
       await UserRepository.saveConfirmationTokenInUser(createdUser.id, confirmationToken);
 
-      await NodemailerService.sendUserRegistrationConfirmationEmail(email);
+      NodemailerService.sendUserRegistrationConfirmationEmail(email, name, confirmationToken);
 
-      res.status(201).send();
+      res.status(204).send();
     } catch {
       res.status(500).send();
     }
@@ -91,7 +90,7 @@ export class UserRegistrationController {
    *                 type: string
    *                 example: place_the_token_here
    *     responses:
-   *       200:
+   *       204:
    *         description: User registration confirmed successfully
    *         content:
    *           application/json:
@@ -147,7 +146,7 @@ export class UserRegistrationController {
 
       await MysqlDataSource.getRepository(User).save(user);
 
-      return res.status(201).send();
+      return res.status(204).send();
     } catch (error) {
       return res.status(500).send();
     }
