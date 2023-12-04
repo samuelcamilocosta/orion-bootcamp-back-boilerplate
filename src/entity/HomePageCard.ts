@@ -3,25 +3,28 @@ import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 @Entity()
 export class HomePageCard {
   @PrimaryGeneratedColumn()
-  id: number;
+  cardId: number;
 
   @Column()
-  title: string;
+  cardTitle: string;
 
   @Column()
-  image: string;
+  cardImage: string;
 
   @Column({ nullable: true })
-  imageDescription: string;
+  cardImageDescription: string;
 
   @Column({ nullable: true })
-  buttonText: string;
+  cardButtonText: string;
 
   @Column()
-  description: string;
+  cardDescription: string;
 
   @Column()
-  access: string;
+  cardAccess: string;
+
+  @Column()
+  cardPath: string;
 
   @CreateDateColumn()
   created_at: Date;

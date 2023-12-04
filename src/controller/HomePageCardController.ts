@@ -65,18 +65,7 @@ export class HomePageCardController {
   public static async findAllHomePageCards(_req: Request, res: Response): Promise<void> {
     try {
       const homePageCards = await HomePageCardRepository.findAllHomePageCards();
-      const renamedHomePageCards = homePageCards.map((card) => ({
-        cardId: card.id,
-        cardTitle: card.title,
-        cardDescription: card.description,
-        cardImage: card.image,
-        cardImageDescription: card.imageDescription,
-        cardButtonText: card.buttonText,
-        cardAccess: card.access,
-        created_at: card.created_at,
-        updated_at: card.updated_at
-      }));
-      res.status(200).send(renamedHomePageCards);
+      res.status(200).send(homePageCards);
     } catch (error) {
       res.status(400).send({ message: 'An error occurred while retrieving the home page cards.' });
     }
@@ -130,10 +119,13 @@ export class HomePageCardController {
   public static async createHomePageCard(req: Request, res: Response): Promise<void> {
     try {
       const card = {
-        title: req.body.title,
-        image: req.body.image,
-        description: req.body.description,
-        access: req.body.access
+        cardTitle: req.body.cardTitle,
+        cardImage: req.body.cardImage,
+        cardImageDescription: req.body.imageDescription,
+        cardButtonText: req.body.cardButtonText,
+        description: req.body.cardDescription,
+        access: req.body.cardAccess,
+        cardPath: req.body.cardPath
       };
       const homePageCard = await HomePageCardRepository.createHomePageCard(card);
       res.status(201).send(homePageCard);
