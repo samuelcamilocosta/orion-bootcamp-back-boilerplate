@@ -12,7 +12,7 @@ export class SubscriptionRepository {
    * @returns {Promise<Subscription | undefined>} A single Subscription object or undefined if not found.
    */
   public static async getSubscriptionByUserId(userId: number): Promise<Subscription | undefined> {
-    return MysqlDataSource.getRepository(Subscription).findOne({ where: { user_id: userId, status: 'active' } });
+    return MysqlDataSource.getRepository(Subscription).findOne({ where: { user_id: userId, active: true } });
   }
 
   /**
