@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
-import { HomePageCard } from '../entity/HomePageCard';
+import { UpdatedHomePageCard } from '../entity/UpdatedHomePageCards';
 import { updatedHOMEPAGECARD } from '../constants/updatedHomePageCards';
 
 export class NewAtributesHomePageCards1701618166924 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const homePageCardRepository = queryRunner.connection.getRepository(HomePageCard);
+    const homePageCardRepository = queryRunner.connection.getRepository(UpdatedHomePageCard);
 
     for (const homePageCardData of updatedHOMEPAGECARD) {
       const newHomePageCard = homePageCardRepository.create({
@@ -22,7 +22,7 @@ export class NewAtributesHomePageCards1701618166924 implements MigrationInterfac
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const homePageCardRepository = queryRunner.connection.getRepository(HomePageCard);
+    const homePageCardRepository = queryRunner.connection.getRepository(UpdatedHomePageCard);
 
     for (const homePageCardData of updatedHOMEPAGECARD) {
       const cardToDelete = await homePageCardRepository.findOneBy({ cardTitle: homePageCardData.cardTitle });
