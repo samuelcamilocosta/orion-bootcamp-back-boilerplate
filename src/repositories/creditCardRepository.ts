@@ -10,7 +10,7 @@ export class CreditCardRepository {
    * Saves a new credit card to the database.
    *
    * @param cardData - The credit card deep partial to be saved (all fields except id and created_at).
-   * @returns {Promise<CreditCard>} The saved Credit Card object.
+   * @returns {Promise<CreditCard>} The saved credit card object.
    */
   public static async saveCreditCard(cardData: DeepPartial<CreditCard>): Promise<CreditCard> {
     return MysqlDataSource.getRepository(CreditCard).save(cardData);
