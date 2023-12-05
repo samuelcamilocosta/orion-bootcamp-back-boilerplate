@@ -11,15 +11,24 @@ import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
 import userConfirmationRoute from './api/v1/userConfirmationRoute';
 import plansRoute from './api/v1/plansRoute';
+import creditCardPaymentRout from './api/v1/creditCardPaymentRoute';
 
 const router = Router();
+
+/**
+ * POST route for credit card payments
+ *
+ * @route POST /user-registration
+ * @group Authentication
+ */
+router.use('/v1', creditCardPaymentRout);
 
 /**
  * POST route for user registration
  * Logic on controller/UserRegistrationController.ts
  *
- * @route POST /user-registration
- * @group Authentication
+ * @route POST /card-payment
+ * @group Payment
  */
 router.use('/v1', userRegistrationRoute);
 
