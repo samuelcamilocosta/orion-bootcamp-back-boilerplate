@@ -101,8 +101,7 @@ export class UserRepository {
    */
   public static async updatePassword(userId: number, newPassword: string): Promise<void> {
     await MysqlDataSource.getRepository(User).update(userId, {
-      password: newPassword,
-      passwordRecoveryToken: null
+      password: newPassword
     });
   }
 

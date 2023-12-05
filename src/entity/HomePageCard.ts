@@ -14,7 +14,7 @@ export class HomePageCard {
   @Column({ nullable: true })
   imageDescription: string;
 
-  @Column({ nullable: true })
+  @Column()
   buttonText: string;
 
   @Column()
@@ -22,10 +22,4 @@ export class HomePageCard {
 
   @Column()
   access: string;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 }
