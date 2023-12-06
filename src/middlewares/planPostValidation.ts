@@ -2,6 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 export class PlanMiddleware {
+  /**
+   * Validates the plan data sent in the request body.
+   * @returns {ValidationChain[]} Array of middleware functions for plan validation.
+   */
   public static validatePlan() {
     return [
       body('type').notEmpty().isIn(['monthly', 'semesterly', 'annually']),
