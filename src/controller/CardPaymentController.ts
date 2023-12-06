@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 import { DeepPartial } from 'typeorm';
-import { CreditCard } from '../entity/CreditCard';
-import { CreditCardRepository } from '../repositories/creditCardRepository';
+import { CardPayment } from '../entity/CardPayment';
+import { CardPaymentRepository } from '../repositories/cardPaymentRepository';
 
 /**
  * Controller for validating credit card data on payments
  */
-export class CreditCardController {
+export class CardPaymentController {
   /**
    * @swagger
    * /v1/card-payment:
    *   post:
-   *     summary: CreditCard
-   *     tags: [Credit Card]
+   *     summary: CardPayment
+   *     tags: [Credit Card Payment]
    *     description: Credit card payment
    *     consumes:
    *       - application/json
@@ -58,14 +58,14 @@ export class CreditCardController {
     try {
       const { cardNumber, cardHolderName, expirationDate, cvv } = req.body;
 
-      const newCreditCard: DeepPartial<CreditCard> = {
+      const newCreditCard: DeepPartial<CardPayment> = {
         cardNumber,
         cardHolderName,
         expirationDate,
         cvv
       };
 
-      await CreditCardRepository.saveCreditCard(newCreditCard);
+      await CardPaymentRepository.saveCreditCard(newCreditCard);
 
       res.status(200).send();
     } catch {

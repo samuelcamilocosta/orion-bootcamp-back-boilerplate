@@ -11,7 +11,7 @@ import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
 import userConfirmationRoute from './api/v1/userConfirmationRoute';
 import plansRoute from './api/v1/plansRoute';
-import creditCardPaymentRoute from './api/v1/creditCardPaymentRoute';
+import creditCardPaymentRoute from './api/v1/CardPaymentRoute';
 
 const router = Router();
 
