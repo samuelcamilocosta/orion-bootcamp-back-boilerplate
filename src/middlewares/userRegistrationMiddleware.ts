@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 import { UserRepository } from '../repositories/userRepository';
 import { UserValidationsMiddleware } from './validationMiddleware';
+
+const verifyAsync = promisify(jwt.verify);
+const secretKey = process.env.JWT_SECRET;
+
+interface RequestWithUserId extends Request {
+  id?: string;
+}
 
 /**
  * Validations for user registration
@@ -15,13 +24,35 @@ export class UserRegistrationValidations {
    * @param res - The response object.
    * @param next - The next middleware function in the stack.
    */
-  public static async checkEmailAndPasswordFormats(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { email, password } = req.body;
+  public static async checkEmailFormat(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { email } = req.body;
 
-    const emailOrPasswordInvalid = UserValidationsMiddleware.validateEmailAndPassword(email, password);
+    const emailValid = UserValidationsMiddleware.validateEmail(email);
 
-    if (emailOrPasswordInvalid) {
-      res.status(400).json({ error: 'Email e/ou senha inválidos' });
+    if (!emailValid) {
+      res.status(400).json({ error: 'Email inválido' });
+      return;
+    }
+
+    next();
+  }
+
+  /**
+   * checkEmailAndPasswordFormats
+   *
+   * Checks email and password formats, through UserValidationsMiddleware class
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkPasswordFormat(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { password } = req.body;
+
+    const passwordValid = UserValidationsMiddleware.validatePassword(password);
+
+    if (!passwordValid) {
+      res.status(400).json({ error: 'Senha inválida' });
       return;
     }
 
@@ -45,7 +76,32 @@ export class UserRegistrationValidations {
     if (!existingUser) {
       next();
     } else {
-      res.status(400).json({ error: 'Este email já está em uso!' });
+      res.status(400).json({ error: 'E-mail já cadastrado' });
+    }
+  }
+
+  /**
+   * checkIfConfirmationTokenIsValid
+   *
+   * Checks if user id (from request) equals the id from decoded confirmation token
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkIfConfirmationTokenIsValid(req: RequestWithUserId, res: Response, next: NextFunction): Promise<void> {
+    const confirmationToken: string | undefined = req.body.confirmationToken;
+
+    if (confirmationToken) {
+      try {
+        const decoded = await verifyAsync(confirmationToken, secretKey);
+        req.body.id = decoded.id;
+        next();
+      } catch (err) {
+        res.status(401).end();
+      }
+    } else {
+      res.status(401).end();
     }
   }
 }

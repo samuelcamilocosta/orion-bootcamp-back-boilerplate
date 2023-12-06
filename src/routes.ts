@@ -9,10 +9,11 @@ import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import resetPasswordRoute from './api/v1/resetPasswordRoute';
+import userConfirmationRoute from './api/v1/userConfirmationRoute';
 import plansRoute from './api/v1/plansRoute';
 
 const router = Router();
-
 /**
  * POST route for user registration
  * Logic on controller/UserRegistrationController.ts
@@ -21,6 +22,14 @@ const router = Router();
  * @group Authentication
  */
 router.use('/v1', userRegistrationRoute);
+
+/**
+ * POST route for user confirmations after registration
+ *
+ * @route POST /user-confirmation
+ * @group Users
+ */
+router.use('/v1', userConfirmationRoute);
 
 /**
  * POST route for user login (authentication)
@@ -106,6 +115,15 @@ router.use('/v1', plansRoute);
  * @route GET /
  * @group Default
  */
+
+/**
+ * POST route for password recovery
+ *
+ * @route POST /reset
+ * @group Authentication
+ */
+router.use('/v1', resetPasswordRoute);
+
 router.get('/', new HomeController().hello);
 
 export default router;
