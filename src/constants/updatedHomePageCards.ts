@@ -5,7 +5,8 @@ export const updatedHOMEPAGECARD = [
     cardDescription: 'Veja a previsão do tempo em Marte ao vivo! Descubra como são as temperaturas no planeta vermelho.',
     cardImageDescription: 'Imagem do terreno arenoso da superfície de Marte',
     cardButtonText: 'Entrar',
-    cardAccess: 'Accessible'
+    cardAccess: 'Accessible',
+    cardPath: '/page/home'
   },
   {
     cardTitle: 'Viagens para Marte',
@@ -13,7 +14,8 @@ export const updatedHOMEPAGECARD = [
     cardDescription: 'O calendário 2023 para Marte está fechado! Em breve abriremos novas inscrições para visitações em 2025.',
     cardImageDescription: 'Imagem de um foguete decolando da Terra',
     cardButtonText: 'Entrar',
-    cardAccess: 'Accessible'
+    cardAccess: 'Accessible',
+    cardPath: '/page/home'
   },
   {
     cardTitle: 'Notícias de Marte',
@@ -21,7 +23,8 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Imagem de um robô explorador de Marte pesquisando o terreno',
     cardButtonText: 'Entrar',
     cardDescription: 'Ansioso por notícias? Logo mais estará disponível o blog “FalaOrion”, seu portal de notícias da Via Láctea!',
-    cardAccess: 'Accessible'
+    cardAccess: 'Accessible',
+    cardPath: '/page/home'
   },
   {
     cardTitle: 'Explore Marte em 3D',
@@ -29,7 +32,8 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Imagem do planeta marte no espaço',
     cardButtonText: 'Entrar',
     cardDescription: 'Uma jornada interativa através do Planeta Vermelho. Veja, aprenda e mergulhe na sua superfície intrigante.',
-    cardAccess: 'Accessible Only from Premium'
+    cardAccess: 'Accessible Only from Premium',
+    cardPath: '/page/home'
   },
   {
     cardTitle: 'Fórum sobre Marte',
@@ -37,7 +41,8 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Dois astronautas caminhando na superfície de Marte enquanto exploram o planeta',
     cardButtonText: 'Entrar',
     cardDescription: 'Participe de discussões envolventes, compartilhe conhecimento e conecte-se com entusiastas.',
-    cardAccess: 'Not Accessible Yet'
+    cardAccess: 'Not Accessible Yet',
+    cardPath: '/page/home'
   },
   {
     cardTitle: 'Adquira sua lembrança marciana',
@@ -45,6 +50,7 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Imagem de uma camisa com estampa de um astronauta no espaço ao lado de outras peças de vestuário',
     cardButtonText: 'Entrar',
     cardDescription: 'Descubra produtos exclusivos de Marte e leve um pedaço do Planeta Vermelho para casa.',
-    cardAccess: 'Not Accessible Yet'
+    cardAccess: 'Not Accessible Yet',
+    cardPath: '/page/home'
   }
 ];
