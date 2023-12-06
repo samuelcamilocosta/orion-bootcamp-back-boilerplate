@@ -28,8 +28,9 @@ export class NodemailerService {
    * Sends a password recovery email to the specified email address.
    *
    * @param email - The email address to send the password recovery email to.
+   * @param recoveryLink - The link to the password recovery page.
    */
-  public static async sendPasswordRecoveryEmail(email: string): Promise<void> {
+  public static async sendPasswordRecoveryEmail(email: string, recoveryLink: string): Promise<void> {
     const mailOptions = {
       from: 'admin',
       to: email,
@@ -42,7 +43,7 @@ export class NodemailerService {
           <body>
             <h3>Olá viajante!</h3>
             <p>Recebemos sua solicitação de recuperação de senha. Para criar uma nova senha clique no botão abaixo:</p>
-            <button>CADASTRAR NOVA SENHA</button>
+            <a href="${recoveryLink}"><button>CADASTRAR NOVA SENHA</button></a>
             <p><b>Importante:</b> O Link é válido por 24 horas</p>
             <p>Após esse tempo, você deverá adicionar um novo, tá bem?!</p>
             <p> Caso não tenha sido você, por favor desconsidere esse email</p>
