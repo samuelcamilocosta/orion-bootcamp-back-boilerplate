@@ -2,7 +2,14 @@ import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 import { UpdatedHomePageCard } from '../entity/UpdatedHomePageCards';
 import { updatedHOMEPAGECARD } from '../constants/updatedHomePageCards';
 
+/**
+ * Migration to add new attributes to HomePageCards.
+ */
 export class NewAtributesHomePageCards1701618166924 implements MigrationInterface {
+  /**
+   * Run the migration.
+   * @param queryRunner - The query runner provided by TypeORM.
+   */
   public async up(queryRunner: QueryRunner): Promise<void> {
     const homePageCardRepository = queryRunner.connection.getRepository(UpdatedHomePageCard);
 
@@ -21,6 +28,10 @@ export class NewAtributesHomePageCards1701618166924 implements MigrationInterfac
     }
   }
 
+  /**
+   * Revert the migration.
+   * @param queryRunner - The query runner provided by TypeORM.
+   */
   public async down(queryRunner: QueryRunner): Promise<void> {
     const homePageCardRepository = queryRunner.connection.getRepository(UpdatedHomePageCard);
 
