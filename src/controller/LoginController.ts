@@ -111,11 +111,7 @@ export class LoginController {
 
     const subscription = await SubscriptionRepository.getSubscriptionByUserId(user.id);
 
-    let role = 'Free';
-
-    if (subscription) {
-      role = 'Premium';
-    }
+    const role = subscription?.active ? 'Premium' : 'Free';
 
     const newUser = { ...user, password: undefined, accessToken, role };
 
