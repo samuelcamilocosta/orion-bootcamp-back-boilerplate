@@ -26,6 +26,14 @@ export class SubscriptionRepository {
    * @returns {Promise<Subscription>} The created Subscription object.
    */
   public static async createSubscription(newSubscription: Partial<Subscription>): Promise<Subscription> {
+    const { user_id } = newSubscription;
+
+    const userAlreadyHasActiveSubscription = this.getSubscriptionByUserId(user_id);
+
+    if (userAlreadyHasActiveSubscription) {
+      return undefined;
+    }
+
     const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
 
     return MysqlDataSource.getRepository(Subscription).save(subscription);
