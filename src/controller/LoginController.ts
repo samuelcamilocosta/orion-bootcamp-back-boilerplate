@@ -3,6 +3,7 @@ import { UserValidationsMiddleware } from '../middlewares/validationMiddleware';
 import { UserRepository } from '../repositories/userRepository';
 import { BcryptUtils } from '../library/bcryptUtils';
 import { JwtUtils } from '../library/jwtUtils';
+import { SubscriptionRepository } from '../repositories/subdcriptionRepository';
 
 /**
  * 1 - Gets user's email and password from request body
@@ -108,7 +109,11 @@ export class LoginController {
 
     await UserRepository.saveAccessTokenInUser(user.id, accessToken);
 
-    const newUser = { ...user, password: undefined, accessToken };
+    const subscription = await SubscriptionRepository.getSubscriptionByUserId(user.id);
+
+    const role = subscription?.active ? 'Premium' : 'Free';
+
+    const newUser = { ...user, password: undefined, accessToken, role };
 
     return res.json({ user: newUser });
   }

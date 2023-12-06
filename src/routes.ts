@@ -9,12 +9,12 @@ import planCardsRoute from './api/v1/planCardsRoute';
 import newPlanCardRoute from './api/v1/newPlanCardRoute';
 import homePageCardsRoute from './api/v1/HomePageCardsRoute';
 import userRegistrationRoute from './api/v1/userRegistrationRoute';
+import resetPasswordRoute from './api/v1/resetPasswordRoute';
 import userConfirmationRoute from './api/v1/userConfirmationRoute';
 import plansRoute from './api/v1/plansRoute';
 import creditCardPaymentRoute from './api/v1/CardPaymentRoute';
 
 const router = Router();
-
 /**
  * POST route for credit card payments
  *
@@ -121,6 +121,15 @@ router.use('/v1', plansRoute);
  * @route GET /
  * @group Default
  */
+
+/**
+ * POST route for password recovery
+ *
+ * @route POST /reset
+ * @group Authentication
+ */
+router.use('/v1', resetPasswordRoute);
+
 router.get('/', new HomeController().hello);
 
 export default router;

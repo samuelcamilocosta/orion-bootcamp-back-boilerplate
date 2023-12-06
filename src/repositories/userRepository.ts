@@ -19,13 +19,14 @@ export class UserRepository {
    */
   public static async addPasswordRecoveryToken(user: User, userId: number): Promise<string> {
     const token = await JwtUtils.generateJWTToken({ userId: userId }, '24h');
+    const recoveryLink = `http://localhost:4200/newpassword?token=${token}`;
 
     user.passwordRecoveryToken = token;
     await MysqlDataSource.getRepository(User).update(user.id, {
       passwordRecoveryToken: token
     });
 
-    return token;
+    return recoveryLink;
   }
 
   /**
@@ -92,29 +93,27 @@ export class UserRepository {
   }
 
   /**
-   * findUserByConfirmationToken
+   * Updates the password of a user.
    *
-   * Finds user by its confirmation token on registration to validate token
-   *
-   * @param confirmationToken - Token generated on registration, valid for 24 hours.
-   * @returns A Promise<User> New user or undefined if no user with this token
+   * @param userId - The id of the user whose password will be updated.
+   * @param newPassword - The new password for the user.
+   * @returns A Promise<void> that is resolved when the update operation is completed.
    */
-  public static async findUserByConfirmationToken(confirmationToken: string): Promise<User | undefined> {
-    return MysqlDataSource.getRepository(User).findOneBy({ confirmationToken: confirmationToken });
+  public static async updatePassword(userId: number, newPassword: string): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      password: newPassword
+    });
   }
 
   /**
-   * saveConfirmationTokenInUser
+   * Deletes the password recovery token of a user.
    *
-   * Saves the confirmation token in the user object after registration
-   *
-   * @param userId ID used as reference to find the user.
-   * @param token used to update user's token.
-   * @returns {Promise<UpdateResult>} Returns updated user with the new confirmation token.
+   * @param userId - The id of the user whose password recovery token will be deleted.
+   * @returns A Promise<void> that is resolved when the update operation is completed.
    */
-  public static async saveConfirmationTokenInUser(userId: number, token: string): Promise<UpdateResult> {
-    return MysqlDataSource.getRepository(User).update(userId, {
-      confirmationToken: token
+  public static async deletePasswordRecoveryToken(userId: number): Promise<void> {
+    await MysqlDataSource.getRepository(User).update(userId, {
+      passwordRecoveryToken: null
     });
   }
 }
