@@ -58,7 +58,11 @@ export class SolController {
       res.status(500).json({ error: 'Erro ao buscar dados dos soles' });
     }
   }
-
+  /**
+   * Updates the sols data by fetching the latest data from the NASA service and saving it to the database.
+   * This method is intended to be called periodically to keep the sols data up to date.
+   * @private
+   */
   private static async updateSolsData(): Promise<void> {
     try {
       const latestSols: NasaService = new NasaService();
@@ -70,6 +74,10 @@ export class SolController {
     }
   }
 
+  /**
+   * Initializes a scheduler that periodically updates the sols data.
+   * The scheduler runs the updateSolsData method every 12 hours.
+   */
   public static initScheduler(): void {
     cron.schedule('0 */12 * * *', async () => {
       await SolController.updateSolsData();
