@@ -119,9 +119,9 @@ export class PlanController {
    *                 type: string
    */
   public static async createPlan(req: Request, res: Response): Promise<Response> {
-    const planData = req.body;
+    const { type, price, saves_percentage, description } = req.body;
 
-    const newPlan = await PlanRepository.createPlan(planData);
+    const newPlan = await PlanRepository.createPlan({ type, price, saves_percentage, description });
 
     return res.status(201).json(newPlan);
   }
