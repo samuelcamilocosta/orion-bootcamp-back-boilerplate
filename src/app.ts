@@ -8,6 +8,7 @@ import routes from './routes';
 import { DataSource } from 'typeorm';
 import { NodemailerService } from './library/nodemailerUtils';
 import { ErrorMiddleware } from './middlewares/errorMiddleware';
+import { SolController } from './controller/SolController';
 
 MysqlDataSource.initialize()
   .then(async (connection: DataSource) => {
@@ -21,6 +22,7 @@ MysqlDataSource.initialize()
 const app = express();
 
 NodemailerService.init();
+SolController.initScheduler();
 
 app.use(express.json());
 app.use(cors({ origin: true }));
