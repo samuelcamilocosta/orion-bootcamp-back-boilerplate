@@ -99,9 +99,12 @@ router.use('/v1', homePageCardsRoute);
 router.use('/v1', quotesRoute);
 
 /**
- * GET route for plans
+ * Routes for plans
  *
  * @route GET /plans
+ * @route GET /plans/:id
+ * @route POST /plans
+ * @route DELETE /plans/:id
  * @group Plans
  */
 router.use('/v1', plansRoute);
