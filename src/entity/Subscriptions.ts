@@ -2,6 +2,7 @@ import { MysqlDataSource } from '../config/database';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, AfterLoad } from 'typeorm';
 import { Plan } from './Plans';
 
+
 @Entity({ name: 'subscriptions' })
 export class Subscription {
   @PrimaryGeneratedColumn()
