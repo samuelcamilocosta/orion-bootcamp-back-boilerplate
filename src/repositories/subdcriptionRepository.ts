@@ -12,7 +12,11 @@ export class SubscriptionRepository {
    * @returns {Promise<Subscription | undefined>} A single Subscription object or undefined if not found.
    */
   public static async getSubscriptionByUserId(userId: number): Promise<Subscription | undefined> {
-    return MysqlDataSource.getRepository(Subscription).findOne({ where: { user_id: userId, active: true } });
+    const subscription = await MysqlDataSource.getRepository(Subscription).findOne({ where: { user_id: userId, active: true } });
+    if (subscription && subscription.active === false) {
+      this.deactivateSubscription(Number(subscription.id));
+    }
+    return subscription;
   }
 
   /**
@@ -25,5 +29,19 @@ export class SubscriptionRepository {
     const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
 
     return MysqlDataSource.getRepository(Subscription).save(subscription);
+  }
+
+  /**
+   * Deactivates a subscription by setting it as inactive and setting the ended date.
+   *
+   * @param subscriptionId - The ID of the subscription to deactivate.
+   * @returns {Promise<void>}
+   */
+  public static async deactivateSubscription(subscriptionId: number): Promise<Subscription | undefined> {
+    const subscription = await MysqlDataSource.getRepository(Subscription).findOneBy({ id: subscriptionId });
+
+    await MysqlDataSource.getRepository(Subscription).update(subscription.id, { active: false, ended_at: new Date() });
+
+    return;
   }
 }
