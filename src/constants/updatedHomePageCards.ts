@@ -6,7 +6,7 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Imagem do terreno arenoso da superfície de Marte',
     cardButtonText: 'Entrar',
     cardAccess: 'Accessible',
-    cardPath: '/page/home'
+    cardPath: '/page/meteorology'
   },
   {
     cardTitle: 'Viagens para Marte',
@@ -15,7 +15,7 @@ export const updatedHOMEPAGECARD = [
     cardImageDescription: 'Imagem de um foguete decolando da Terra',
     cardButtonText: 'Entrar',
     cardAccess: 'Accessible',
-    cardPath: '/page/home'
+    cardPath: ''
   },
   {
     cardTitle: 'Notícias de Marte',
@@ -24,7 +24,7 @@ export const updatedHOMEPAGECARD = [
     cardButtonText: 'Entrar',
     cardDescription: 'Ansioso por notícias? Logo mais estará disponível o blog “FalaOrion”, seu portal de notícias da Via Láctea!',
     cardAccess: 'Accessible',
-    cardPath: '/page/home'
+    cardPath: ''
   },
   {
     cardTitle: 'Explore Marte em 3D',
@@ -33,7 +33,7 @@ export const updatedHOMEPAGECARD = [
     cardButtonText: 'Entrar',
     cardDescription: 'Uma jornada interativa através do Planeta Vermelho. Veja, aprenda e mergulhe na sua superfície intrigante.',
     cardAccess: 'Accessible Only from Premium',
-    cardPath: '/page/home'
+    cardPath: '/page/mars-map'
   },
   {
     cardTitle: 'Fórum sobre Marte',
@@ -42,7 +42,7 @@ export const updatedHOMEPAGECARD = [
     cardButtonText: 'Entrar',
     cardDescription: 'Participe de discussões envolventes, compartilhe conhecimento e conecte-se com entusiastas.',
     cardAccess: 'Not Accessible Yet',
-    cardPath: '/page/home'
+    cardPath: ''
   },
   {
     cardTitle: 'Adquira sua lembrança marciana',
@@ -51,6 +51,6 @@ export const updatedHOMEPAGECARD = [
     cardButtonText: 'Entrar',
     cardDescription: 'Descubra produtos exclusivos de Marte e leve um pedaço do Planeta Vermelho para casa.',
     cardAccess: 'Not Accessible Yet',
-    cardPath: '/page/home'
+    cardPath: ''
   }
 ];
