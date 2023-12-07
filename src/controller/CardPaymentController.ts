@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import { DeepPartial } from 'typeorm';
 import { CardPayment } from '../entity/CardPayment';
 import { CardPaymentRepository } from '../repositories/cardPaymentRepository';
+import { JwtUtils } from '../library/jwtUtils';
+import { SubscriptionRepository } from '../repositories/subdcriptionRepository';
+import { Subscription } from '../entity/Subscriptions';
 
 /**
  * Controller for validating credit card data on payments
@@ -25,6 +28,12 @@ export class CardPaymentController {
    *           schema:
    *             type: object
    *             properties:
+   *               token:
+   *                 type: string
+   *                 example: yourTokenHere
+   *               planId:
+   *                 type: string
+   *                 example: 1
    *               cardNumber:
    *                 type: string
    *                 example: 4800 0000 0000 0004
@@ -56,9 +65,18 @@ export class CardPaymentController {
    */
   public static async acceptCreditCardPayment(req: Request, res: Response): Promise<void> {
     try {
-      const { cardNumber, cardHolderName, expirationDate, cvv } = req.body;
+      const { token, planId, cardNumber, cardHolderName, expirationDate, cvv } = req.body;
+
+      const userId = await JwtUtils.getUserIdFromToken(token);
+
+      if (typeof userId !== 'number') {
+        res.status(400).json({ error: 'Erro ao decodificar o token' });
+        return;
+      }
 
       const newCreditCard: DeepPartial<CardPayment> = {
+        userId,
+        planId,
         cardNumber,
         cardHolderName,
         expirationDate,
@@ -66,6 +84,15 @@ export class CardPaymentController {
       };
 
       await CardPaymentRepository.saveCreditCard(newCreditCard);
+
+      const newSubscriptionData: DeepPartial<Subscription> = {
+        user_id: userId,
+        plan_id: planId,
+        active: true,
+        started_at: new Date()
+      };
+
+      await SubscriptionRepository.createSubscription(newSubscriptionData);
 
       res.status(200).send();
     } catch {

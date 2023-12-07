@@ -116,4 +116,31 @@ export class UserRepository {
       passwordRecoveryToken: null
     });
   }
+
+  /**
+   * findUserByConfirmationToken
+   *
+   * Finds user by its confirmation token on registration to validate token
+   *
+   * @param confirmationToken - Token generated on registration, valid for 24 hours.
+   * @returns A Promise<User> New user or undefined if no user with this token
+   */
+  public static async findUserByConfirmationToken(confirmationToken: string): Promise<User | undefined> {
+    return MysqlDataSource.getRepository(User).findOneBy({ confirmationToken: confirmationToken });
+  }
+
+  /**
+   * saveConfirmationTokenInUser
+   *
+   * Saves the confirmation token in the user object after registration
+   *
+   * @param userId ID used as reference to find the user.
+   * @param token used to update user's token.
+   * @returns {Promise<UpdateResult>} Returns updated user with the new confirmation token.
+   */
+  public static async saveConfirmationTokenInUser(userId: number, token: string): Promise<UpdateResult> {
+    return MysqlDataSource.getRepository(User).update(userId, {
+      confirmationToken: token
+    });
+  }
 }

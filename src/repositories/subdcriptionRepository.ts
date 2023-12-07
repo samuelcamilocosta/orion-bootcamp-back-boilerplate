@@ -1,5 +1,6 @@
 import { MysqlDataSource } from '../config/database';
 import { Subscription } from './../entity/Subscriptions';
+import { DeepPartial } from 'typeorm';
 
 /**
  * Repository handling Subscription-related database queries.
@@ -25,7 +26,7 @@ export class SubscriptionRepository {
    * @param newSubscription - The data for the new subscription.
    * @returns {Promise<Subscription>} The created Subscription object.
    */
-  public static async createSubscription(newSubscription: Partial<Subscription>): Promise<Subscription> {
+  public static async createSubscription(newSubscription: DeepPartial<Subscription>): Promise<Subscription> {
     const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
 
     return MysqlDataSource.getRepository(Subscription).save(subscription);

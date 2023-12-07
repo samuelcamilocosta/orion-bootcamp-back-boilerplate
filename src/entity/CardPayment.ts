@@ -6,6 +6,12 @@ export class CardPayment {
   id: number;
 
   @Column({ nullable: false })
+  userId: number;
+
+  @Column({ nullable: false })
+  planId: string;
+
+  @Column({ nullable: false })
   cardNumber: string;
 
   @Column({ nullable: false })
