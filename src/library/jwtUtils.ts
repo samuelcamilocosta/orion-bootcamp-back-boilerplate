@@ -1,4 +1,6 @@
 import * as jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+const verifyAsync = promisify(jwt.verify);
 
 const secretKey = process.env.JWT_SECRET;
 
@@ -33,6 +35,24 @@ export class JwtUtils {
       return jwt.verify(token, secretKey);
     } catch (error) {
       return { error };
+    }
+  }
+
+  /**
+   * getUserIdFromToken
+   *
+   * Gets the user id from the JWT token
+   *
+   * @param token - The JWT token from which the id will be retrieved.
+   * @returns Promise<number> - AThe id of the user.
+   */
+  public static async getUserIdFromToken(token: string): Promise<number | Error> {
+    try {
+      const decodedToken = await verifyAsync(token, secretKey);
+      const userId = decodedToken.id;
+      return userId;
+    } catch (error) {
+      return new Error('Erro decodificando o token');
     }
   }
 }
