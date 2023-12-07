@@ -24,7 +24,7 @@ export class SubscriptionRepository {
    * Creates a new subscription.
    *
    * @param newSubscription - The data for the new subscription.
-   * @returns {Promise<Subscription>} The created Subscription object.
+   * @returns {Promise<Subscription | void>} The created Subscription object or void.
    */
   public static async createSubscription(newSubscription: DeepPartial<Subscription>): Promise<Subscription> {
     const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
