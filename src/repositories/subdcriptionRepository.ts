@@ -27,6 +27,14 @@ export class SubscriptionRepository {
    * @returns {Promise<Subscription | void>} The created Subscription object or void.
    */
   public static async createSubscription(newSubscription: DeepPartial<Subscription>): Promise<Subscription> {
+    const { user_id } = newSubscription;
+
+    const userAlreadyHasActiveSubscription = this.getSubscriptionByUserId(user_id);
+
+    if (userAlreadyHasActiveSubscription) {
+      return;
+    }
+
     const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
 
     return MysqlDataSource.getRepository(Subscription).save(subscription);

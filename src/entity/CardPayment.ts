@@ -9,7 +9,7 @@ export class CardPayment {
   userId: number;
 
   @Column({ nullable: false })
-  planId: string;
+  planId: number;
 
   @Column({ nullable: false })
   cardNumber: string;

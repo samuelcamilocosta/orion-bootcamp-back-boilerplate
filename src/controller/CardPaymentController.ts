@@ -16,6 +16,8 @@ export class CardPaymentController {
    *   post:
    *     summary: CardPayment
    *     tags: [Credit Card Payment]
+   *     security:
+   *       - bearerAuth: []
    *     description: Credit card payment
    *     consumes:
    *       - application/json
@@ -28,11 +30,8 @@ export class CardPaymentController {
    *           schema:
    *             type: object
    *             properties:
-   *               token:
-   *                 type: string
-   *                 example: yourTokenHere
    *               planId:
-   *                 type: string
+   *                 type: number
    *                 example: 1
    *               cardNumber:
    *                 type: string
@@ -46,6 +45,13 @@ export class CardPaymentController {
    *               cvv:
    *                 type: string
    *                 example: 123
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token
    *     responses:
    *       '200':
    *           description: Payment made successfully
@@ -65,7 +71,13 @@ export class CardPaymentController {
    */
   public static async acceptCreditCardPayment(req: Request, res: Response): Promise<void> {
     try {
-      const { token, planId, cardNumber, cardHolderName, expirationDate, cvv } = req.body;
+      const { planId, cardNumber, cardHolderName, expirationDate, cvv } = req.body;
+      const token = req.header('Authorization')?.split(' ')[1];
+
+      if (!token) {
+        res.status(401).json({ error: 'Token não fornecido' });
+        return;
+      }
 
       const userId = await JwtUtils.getUserIdFromToken(token);
 
