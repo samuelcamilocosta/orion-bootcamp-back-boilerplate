@@ -45,13 +45,6 @@ export class CardPaymentController {
    *               cvv:
    *                 type: string
    *                 example: 123
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         schema:
-   *           type: string
-   *         required: true
-   *         description: Bearer token
    *     responses:
    *       '200':
    *           description: Payment made successfully

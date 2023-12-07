@@ -1,5 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import cardValidator from 'card-validator';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+
+const verifyAsync = promisify(jwt.verify);
+const secretKey = process.env.JWT_SECRET;
+
+interface RequestWithUserId extends Request {
+  id?: string;
+}
 
 export class CreditCardMiddleware {
   /**
@@ -92,5 +101,32 @@ export class CreditCardMiddleware {
   public static isValidcardCvv(cvv: string): boolean {
     const cardInfo = cardValidator.cvv(cvv);
     return cardInfo.isPotentiallyValid && cardInfo.isValid;
+  }
+
+  /**
+   * checkIfAccessTokenIsValid
+   *
+   * Checks if user id (from request) equals the id from decoded access token
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next middleware function in the stack.
+   */
+  public static async checkIfAccessTokenIsValid(req: RequestWithUserId, res: Response, next: NextFunction): Promise<void> {
+    const accessToken: string | undefined = req.headers.authorization?.split(' ')[1];
+
+    if (accessToken) {
+      try {
+        const decoded = await verifyAsync(accessToken, secretKey);
+        req.body.id = decoded.id;
+        next();
+      } catch (err) {
+        console.error('Erro durante a verificação do token:', err);
+        res.status(401).end();
+      }
+    } else {
+      console.error('Token de acesso não fornecido');
+      res.status(401).end();
+    }
   }
 }

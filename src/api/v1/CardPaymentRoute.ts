@@ -6,6 +6,11 @@ import { CreditCardMiddleware } from '../../middlewares/creditCardMiddleware';
 const router = Router();
 router.use(bodyParser.json());
 
-router.post('/card-payment', CreditCardMiddleware.creditCardValidator, CardPaymentController.acceptCreditCardPayment);
+router.post(
+  '/card-payment',
+  CreditCardMiddleware.creditCardValidator,
+  CreditCardMiddleware.checkIfAccessTokenIsValid,
+  CardPaymentController.acceptCreditCardPayment
+);
 
 export default router;
