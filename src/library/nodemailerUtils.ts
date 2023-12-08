@@ -1,6 +1,4 @@
 import nodemailer from 'nodemailer';
-import { User } from '../entity/Users';
-import { UserRepository } from '../repositories/userRepository';
 /**
  * Sends emails for users
  */

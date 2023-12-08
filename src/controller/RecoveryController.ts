@@ -46,7 +46,7 @@ export class RecoveryController {
   }
   /**
    * @swagger
-   * /v1/reset-password:
+   * /v1/reset:
    *   post:
    *     summary: Reset password for a user.
    *     tags: [Recovery]

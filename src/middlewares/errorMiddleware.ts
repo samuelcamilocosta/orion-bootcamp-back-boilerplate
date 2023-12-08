@@ -1,6 +1,5 @@
-import { NextFunction, Response } from 'express';
 import { ApplicationErrorService } from '../services/AplicationErrorService';
-import { Request as ExpressRequest } from 'express';
+import { Request as ExpressRequest, Response } from 'express';
 
 interface Request extends ExpressRequest {
   user?: { id: number };
@@ -29,7 +28,7 @@ export class ErrorMiddleware {
    * @returns A promise that resolves when the error has been handled.
    * @public
    */
-  static async handleError(err: Error | CustomError, req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async handleError(err: Error | CustomError, req: Request, res: Response): Promise<void> {
     console.error(err);
 
     const errorService = new ApplicationErrorService();
