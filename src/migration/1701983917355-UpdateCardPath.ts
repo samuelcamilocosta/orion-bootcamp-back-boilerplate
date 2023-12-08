@@ -22,7 +22,8 @@ export class UpdateCardPath1701983917355 implements MigrationInterface {
   /**
    * This method is left empty as the changes made by the up method are not reversible.
    *
-   * @param queryRunner - The QueryRunner instance provided by TypeORM.
+   * @param _queryRunner - The QueryRunner instance provided by TypeORM.
    */
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async down(_queryRunner: QueryRunner): Promise<void> {}
 }
