@@ -105,7 +105,7 @@ export class LoginController {
       return res.status(400).json({ message: 'E-mail e/ou senha inválidos' });
     }
 
-    const accessToken: string = await JwtUtils.generateJWTToken({ id: user.id }, '5h');
+    const accessToken: string = await JwtUtils.generateJWTToken({ id: user.id }, '48h');
 
     await UserRepository.saveAccessTokenInUser(user.id, accessToken);
 

@@ -3,6 +3,7 @@ import { UserRepository } from '../repositories/userRepository';
 import { NodemailerService } from '../library/nodemailerUtils';
 import { JwtUtils } from '../library/jwtUtils';
 import { UserValidationsMiddleware } from '../middlewares/validationMiddleware';
+import { BcryptUtils } from '../library/bcryptUtils';
 
 /**
  * Controller user password recovery. Returns status 200 if user is found or not. If
@@ -77,7 +78,9 @@ export class RecoveryController {
     try {
       const { userId } = await JwtUtils.verifyJWTToken(token);
 
-      await UserRepository.updatePassword(userId, newPassword);
+      const hashedPassword = await BcryptUtils.hashPassword(newPassword);
+
+      await UserRepository.updatePassword(userId, hashedPassword);
 
       await UserRepository.deletePasswordRecoveryToken(userId);
 
