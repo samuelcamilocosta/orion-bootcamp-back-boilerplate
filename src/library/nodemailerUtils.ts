@@ -39,13 +39,15 @@ export class NodemailerService {
             <title>Recuperação de senha</title>
           </head>
           <body>
-            <h3>Olá viajante!</h3>
-            <p>Recebemos sua solicitação de recuperação de senha. Para criar uma nova senha clique no botão abaixo:</p>
-            <a href="${recoveryLink}"><button>CADASTRAR NOVA SENHA</button></a>
-            <p><b>Importante:</b> O Link é válido por 24 horas</p>
+            <h3>Olá viajante!</h3> <br>
+            <p>Recebemos sua solicitação de recuperação de senha. Para criar uma nova senha clique no botão abaixo:</p> <br>
+            <a href="${recoveryLink}"style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirme seu cadastro</a>
+            <br>
+            <br><p><b>Importante:</b> O Link é válido por 24 horas</p><br>
             <p>Após esse tempo, você deverá adicionar um novo, tá bem?!</p>
             <p> Caso não tenha sido você, por favor desconsidere esse email</p>
             <p> Se precisar de ajuda, entre em contato com a gente!</p>
+            <br>
             <p>EQUIPE ORION MARTE</p>
           </body>
         </html>
