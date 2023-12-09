@@ -29,12 +29,9 @@ export class SubscriptionRepository {
   public static async createSubscription(newSubscription: DeepPartial<Subscription>): Promise<Subscription> {
     const { user_id, plan_id } = newSubscription;
 
-    console.log(user_id, plan_id);
-
     const userAlreadyHasActiveSubscription = await this.getSubscriptionByUserId(user_id);
 
     if (userAlreadyHasActiveSubscription) {
-      console.log(userAlreadyHasActiveSubscription);
       return;
     }
 
