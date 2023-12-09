@@ -52,6 +52,7 @@ export class SolController {
    */
   public static async getSoles(req: Request, res: Response): Promise<void> {
     try {
+      await SolController.updateSolsData();
       const listedSoles: Sol[] = await SolRepository.listSoles();
       res.status(200).json(listedSoles);
     } catch {
