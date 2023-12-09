@@ -41,7 +41,7 @@ export class NodemailerService {
           <body>
             <h3>Olá viajante!</h3> <br>
             <p>Recebemos sua solicitação de recuperação de senha. Para criar uma nova senha clique no botão abaixo:</p> <br>
-            <a href="${recoveryLink}"style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirme seu cadastro</a>
+            <a href="${recoveryLink}"style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Redefinir senha</a>
             <br>
             <br><p><b>Importante:</b> O Link é válido por 24 horas</p><br>
             <p>Após esse tempo, você deverá adicionar um novo, tá bem?!</p>
