@@ -1,5 +1,5 @@
 import { MysqlDataSource } from '../config/database';
-import { Subscription } from './../entity/Subscriptions';
+import { Subscription } from '../entity/Subscriptions';
 import { DeepPartial } from 'typeorm';
 
 /**
@@ -27,15 +27,15 @@ export class SubscriptionRepository {
    * @returns {Promise<Subscription | void>} The created Subscription object or void.
    */
   public static async createSubscription(newSubscription: DeepPartial<Subscription>): Promise<Subscription> {
-    const { user_id } = newSubscription;
+    const { user_id, plan_id } = newSubscription;
 
-    const userAlreadyHasActiveSubscription = this.getSubscriptionByUserId(user_id);
+    const userAlreadyHasActiveSubscription = await this.getSubscriptionByUserId(user_id);
 
     if (userAlreadyHasActiveSubscription) {
       return;
     }
 
-    const subscription = MysqlDataSource.getRepository(Subscription).create(newSubscription);
+    const subscription = MysqlDataSource.getRepository(Subscription).create({ user_id, plan_id });
 
     return MysqlDataSource.getRepository(Subscription).save(subscription);
   }

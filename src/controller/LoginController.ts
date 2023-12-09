@@ -3,7 +3,7 @@ import { UserValidationsMiddleware } from '../middlewares/validationMiddleware';
 import { UserRepository } from '../repositories/userRepository';
 import { BcryptUtils } from '../library/bcryptUtils';
 import { JwtUtils } from '../library/jwtUtils';
-import { SubscriptionRepository } from '../repositories/subdcriptionRepository';
+import { SubscriptionRepository } from '../repositories/subscriptionRepository';
 
 /**
  * 1 - Gets user's email and password from request body

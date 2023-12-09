@@ -3,7 +3,7 @@ import { DeepPartial } from 'typeorm';
 import { CardPayment } from '../entity/CardPayment';
 import { CardPaymentRepository } from '../repositories/cardPaymentRepository';
 import { JwtUtils } from '../library/jwtUtils';
-import { SubscriptionRepository } from '../repositories/subdcriptionRepository';
+import { SubscriptionRepository } from '../repositories/subscriptionRepository';
 import { Subscription } from '../entity/Subscriptions';
 
 /**
