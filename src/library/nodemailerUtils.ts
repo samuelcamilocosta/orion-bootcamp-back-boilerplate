@@ -41,7 +41,7 @@ export class NodemailerService {
           <body>
             <h3>Olá viajante!</h3> <br>
             <p>Recebemos sua solicitação de recuperação de senha. Para criar uma nova senha clique no botão abaixo:</p> <br>
-            <a href="${recoveryLink}"style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirme seu cadastro</a>
+            <a href="${recoveryLink}"style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Redefinir senha</a>
             <br>
             <br><p><b>Importante:</b> O Link é válido por 24 horas</p><br>
             <p>Após esse tempo, você deverá adicionar um novo, tá bem?!</p>
@@ -83,9 +83,12 @@ export class NodemailerService {
           <body>
             <h3>Olá ${formattedUserName}</h3><br />
             <p>Obrigado por se juntar à nossa comunidade ORION MARTE! </p>
-            <p>Para confirmar seu cadastro, clique no link abaixo: </p><br />
+            <p>Para confirmar seu cadastro, clique no link abaixo: </p><br/>
+            <a href="${confirmationLink}?confirmationToken=${token}">Confirme seu cadastro</a>
+            <br>
+            <br><p><b>Importante:</b> O Link é válido por 24 horas</p>
             <a href="${confirmationLink}?confirmationToken=${token}" style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirme seu cadastro</a>
-            <br />
+            <br/>
             <p><b>Importante:</b> O Link é válido por 24 horas</p>
             <p>Se você não solicitou este e-mail, por favor, ignore-o. Caso</p>
             <p>contrário, esperamos que aproveite a exploração do vasto</p>
