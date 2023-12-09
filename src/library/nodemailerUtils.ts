@@ -86,7 +86,7 @@ export class NodemailerService {
             <p>Para confirmar seu cadastro, clique no link abaixo: </p><br />
             <a href="${confirmationLink}?confirmationToken=${token}">Confirme seu cadastro</a>
             <br>
-            <p><b>Importante:</b> O Link é válido por 24 horas</p>
+            <br><p><b>Importante:</b> O Link é válido por 24 horas</p>
             <p>Se você não solicitou este e-mail, por favor, ignore-o. Caso</p>
             <p>contrário, esperamos que aproveite a exploração do vasto</p>
             <p>universo de Marte em nosso site.</p><br />
